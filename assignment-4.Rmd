@@ -360,6 +360,7 @@ above_x2 <- chisq.test(legal_prop)
 above_x2
 
 ## The proportion does not differ significantly between each location. 
+# there is no signficant association between legal lobster size and different test sites 
 
 ## should check with office hours
 ```
