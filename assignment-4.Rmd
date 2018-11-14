@@ -1,0 +1,24 @@
+---
+title: "assignment-4"
+author: "Gage Clawson"
+date: "11/13/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(vcdExtra)
+```
+
+```{r}
+lob_size <- read_csv("lobster_size_abundance.csv")
+lob_size1 <- as.data.frame(lob_size)
+
+lob_size2 <- expand.dft(lob_size1, freq = "COUNT") ##expand.dft filters out all count = 0 rows and makes data tidy (each observation has it's own row)
+```
+
+
