@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(vcdExtra)
+library(car)
+library(effsize)
 ```
 
 ```{r}
@@ -34,47 +36,339 @@ Yes boss
 ```{r}
 lob_size3 <- mutate(lob_size2, DATE = as.Date(DATE, format = '%d-%b-%y')) # make date formats same for both datasets yyyy-mm-dd
 
-five_sites <- c("AQUE", "CARP", "IVEE", "MOHK", "NAPL")
+three_sites <- c("AQUE", "CARP", "MOHK")
 
 lob_traps1 <- mutate(lob_traps, DATE = as.Date(DATE, format = '%m/%d/%y')) %>%
-  filter(SITE %in% five_sites)
+  filter(SITE %in% three_sites, TRAPS != 0) %>%
+  expand.dft(freq = "TRAPS")
 
 # make date formats the same and filter for only the 5 sites 
 
 ```
 
 1. Lobster abundance and fishing pressure (2012 - 2017)
-Describe trends in lobster abundance (counts) and fishing pressure (trap buoys) at the five locations from
-2012 - 2017. Ignore transect information - we are only interested in evaluating abundance and pressure on the
-order of SITE. Note: you are not expected to use regression here - just think of ways to clearly
-describe annual totals visually and in text, noting important trends, events and differences.
+Describe trends in lobster abundance (counts) and fishing pressure (trap buoys) at the five locations from 2012 - 2017. Ignore transect information - we are only interested in evaluating abundance and pressure on the order of SITE. Note: you are not expected to use regression here - just think of ways to clearly describe annual totals visually and in text, noting important trends, events and differences.
 
 ```{r}
 # find the counts of lobsters per each site per each year
 lob_counts <- lob_size3 %>%
   group_by(SITE, YEAR) %>%
-  dplyr::summarise(count = length(SIZE)) %>%
-  spread(YEAR, count) %>%
-  ungroup(SITE) %>%
-  select(-SITE)
+  dplyr::summarise(count_lobs = length(SIZE))
 
-rownames(lob_counts) <- c("AQUE", "CARP", "IVEE", "MOHK", "NAPL")
+#%>%
+  #spread(YEAR, count) %>%       <<<<< ignore that stuff
+  #ungroup(SITE) %>%
+ # select(-SITE)
 
-lob_counts_final <- lob_counts %>%
-  select(-SITE)
+#rownames(lob_counts) <- c("AQUE", "CARP", "IVEE", "MOHK", "NAPL")
+
 
 # find the counts of traps per each site per each year
-trap_counts <- lob_traps1 %>% 
+trap_counts <- lob_traps1 %>%
   group_by(SITE, YEAR) %>%
-  dplyr::summarise(count = length(TRAPS)) %>%
-  spread(YEAR, count) %>%
-  ungroup(SITE) %>%
-  select(-SITE)
-
-rownames(trap_counts) <- c("AQUE", "CARP", "IVEE", "MOHK", "NAPL")
+  dplyr::summarise(count_traps = length(OBSERVER))
 
 
+
+new_lob_traps <- left_join(lob_counts, trap_counts, by = c("YEAR", "SITE"))
+
+new_lob_traps[is.na(new_lob_traps)] <- 0  ## new_lob_traps is the final table for counts per each site per each year for number of lobsters and traps
+```
+
+
+```{r}
+# graphs displaying trends
+
+ggplot(new_lob_traps, aes(x = YEAR, y = count_lobs)) +
+  geom_col(aes(color = SITE)) + 
+  facet_wrap(~SITE)
+
+ggplot(new_lob_traps, aes(x = YEAR, y = count_traps)) +
+  geom_col(aes(color = SITE)) + 
+  facet_wrap(~SITE)
+
+ggplot(new_lob_traps, aes(x = YEAR, y = count_lobs)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~SITE)
+
+ggplot(new_lob_traps, aes(x = YEAR, y = count_traps)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~SITE)
+
+
+# try anova per each site for counts??
 
 ```
+
+
+2. Compare mean lobster size by site in 2017
+Compare mean lobster sizes (carapace length (mm)) across the five sites for lobster observations collected in
+2017. Warning: the size data are not in tidy format. There are rows that contain size information for multiple
+lobsters observed (e.g., if the researcher saw 3 lobsters all with carapace length ~ 60 mm, then they will have a
+single row where COUNT = 3 and SIZE = 60). You’ll want to get this into case format - where each lobster
+has its own row - before doing statistical analyses. There are many ways to do this. One hint: function
+expand.dft in the vcdExtra package (it doesn’t like tibbles, so you might need to coerce to data.frame first).
+
+
+```{r}
+
+lob_mean <- lob_size3 %>%
+  filter(YEAR == 2017) %>%
+  group_by(SITE) %>%
+  dplyr::summarise(mean_size = mean(SIZE), sample_size = length(SIZE), sd_size = sd(SIZE))
+
+lob_size_2017 <- lob_size3 %>%
+  filter(YEAR == 2017) %>%
+  select(YEAR, SITE, SIZE)
+
+```
+
+
+```{r}
+
+##exploratory graphs
+
+hists <- ggplot(lob_size_2017, aes(x = SIZE)) +
+  geom_histogram(aes(fill = SITE)) + 
+  facet_wrap(~SITE)
+
+hists
+
+qq <- ggplot(lob_size_2017, aes(sample = SIZE)) +
+  geom_qq() +
+  facet_wrap(~SITE)
+
+qq
+
+## histogram and qqplots indicate normality
+
+# Levene's test for equal variances 
+# We'll use the function leveneTest from the 'car' package
+
+# H0: Variances are equal
+# HA: Variances are unequal
+
+lobster_levene <- leveneTest(SIZE ~ SITE, data = lob_size_2017)
+lobster_levene
+
+# we reject the null hypothesis of equal variances (p < 0.05)
+
+var_table <- lob_size_2017 %>%
+  group_by(SITE) %>%
+  dplyr::summarise(variance = var(SIZE))
+
+# since largest variance < 4X larger than the smallest variance, can still use ANOVA
+
+```
+
+
+```{r}
+lobster_aov <- aov(SIZE ~ SITE, data = lob_size_2017)
+summary(lobster_aov)
+
+# H0: Mean sizes across all sites are equal
+# HA: There is at least one significant difference in means between the 5 sites
+
+# reject the null
+
+# At least two samples were taken from populations with different means. Which ones are different? All three are different from eachother? Or something else?
+
+
+# Post hoc testing using Tukey's HSD
+
+lobster_ph <- TukeyHSD(lobster_aov)
+lobster_ph
+
+tukey_data <- as.data.frame(lobster_ph$SITE) 
+
+tukey_data1 <- tukey_data %>% 
+  rename(p_value = 'p adj') %>%
+  mutate((letter = 
+           case_when(
+             p_value <= 0.05  ~ "a",
+             p_value >= 0.05  ~ "b"
+           )
+         )) 
+
+## only significant differences between Naples and Carp, and Naples and IV 
+
+
+##use ggsignif function
+
+ggplot(lob_mean, aes(x = SITE, y = mean_size)) +
+  geom_col() +
+  geom_errorbar(aes(ymin =mean_size - sd_size, ymax = mean_size + sd_size), color = "gray0", width = .3) +
+  theme_classic()
+
+```
+
+3. Changes in lobster size at MPA and non-MPA sites (comparing only 2012 and 2017 sizes)
+From the data description (http://sbc.lternet.edu/cgi-bin/showDataset.cgi?docid=knb-lter-sbc.77):
+“Data on abundance, size and fishing pressure of California spiny lobster (Panulirus interruptus)
+are collected along the mainland coast of the Santa Barbara Channel. Spiny lobsters are an
+important predator in giant kelp forests off southern California. Two SBC LTER study reefs are
+located in or near the California Fish and Game Network of Marine Protected Areas (MPA), Naples
+and Isla Vista, both established as MPAs on 2012-01-01. MPAs provide a unique opportunity to
+investigate the effects of fishing on kelp forest community dynamics. Sampling began in 2012 and
+is ongoing.”
+At Isla Vista and Naples Reef, the two protected MPA sites (with zero fishing pressure), how do lobster sizes
+in 2012 and 2017 compare? At the non-MPA sites?
+
+```{r}
+mpa <- c("IVEE", "NAPL") 
+
+'%!in%' <- function(x,y)!('%in%'(x,y))
+
+## filter for mpa sites and 2017 or 2012
+
+mpa_site <- lob_size3 %>%
+  filter(SITE %in% mpa, YEAR == 2012|YEAR == 2017) %>%
+  select(SITE,YEAR,SIZE)
+
+## filter for non mpa sites and 2017 or 2012
+non_mpa_site <- lob_size3 %>%
+  filter(SITE %!in% mpa, YEAR==2012|YEAR==2017) %>%
+  select(SITE,YEAR,SIZE)
+
+```
+
+
+```{r}
+# F test for equal variances
+# H0: The variances are equal (ratio of variances = 1)
+# HA: The variances are not equal (ratio of variances != 1)
+
+mpa_ftest <- mpa_site %>%
+  var.test(SIZE ~ YEAR, data = .)
+
+mpa_ftest
+# retain the null hypothesis of equal variances
+
+# We can override the default setting in t.test() function of var.equal = FALSE, because the variances are actually likely equal.
+
+# H0: mean Lobster size at mpa sites in 2012 are equal to mean lobster size at mpa sites in 2017
+# HA: mean Lobster size at mpa sites in 2012 are NOT equal to mean lobster size at mpa sites in 2017
+
+mpa_ttest <- mpa_site %>%
+  t.test(SIZE ~ YEAR, data = ., var.equal = TRUE)
+
+mpa_ttest # retain null they are equal
+
+
+
+mpa_site_2012 <- lob_size3 %>%
+  filter(SITE %in% mpa, YEAR == 2012) %>%
+  select(SITE,YEAR,SIZE)
+
+mpa_site_2017 <- lob_size3 %>%
+  filter(SITE %in% mpa, YEAR == 2017) %>%
+  select(SITE,YEAR,SIZE)
+
+#calculate the difference in means
+
+mpa_mean_2012 <- mean(mpa_site_2012$SIZE)
+
+mpa_mean_2017 <- mean(mpa_site_2017$SIZE)
+
+mpa_mean_2012 - mpa_mean_2017
+ 
+# calculate effect size
+cohen_d_test <- cohen.d(mpa_site_2012$SIZE, mpa_site_2017$SIZE)
+cohen_d_test
+
+
+## effect size is small which indicates that there likely is NOT a significant difference in mean lobster size at the two sites.
+```
+
+```{r}
+# F test for equal variances
+# H0: The variances are equal (ratio of variances = 1)
+# HA: The variances are not equal (ratio of variances != 1)
+
+non_mpa_ftest <- non_mpa_site %>%
+  var.test(SIZE ~ YEAR, data = .)
+
+non_mpa_ftest
+# retain the null hypothesis of equal variances
+
+# We can override the default setting in t.test() function of var.equal = FALSE, because the variances are actually likely equal.
+
+# H0: mean Lobster size at mpa sites in 2012 are equal to mean lobster size at mpa sites in 2017
+# HA: mean Lobster size at mpa sites in 2012 are NOT equal to mean lobster size at mpa sites in 2017
+
+non_mpa_ttest <- non_mpa_site %>%
+  t.test(SIZE ~ YEAR, data = ., var.equal = TRUE)
+
+non_mpa_ttest # reject null they are equal
+
+
+
+non_mpa_site_2012 <- lob_size3 %>%
+  filter(SITE %!in% mpa, YEAR == 2012) %>%
+  select(SITE,YEAR,SIZE)
+
+non_mpa_site_2017 <- lob_size3 %>%
+  filter(SITE %!in% mpa, YEAR == 2017) %>%
+  select(SITE,YEAR,SIZE)
+
+#calculate the difference in means
+
+non_mpa_mean_2012 <- mean(non_mpa_site_2012$SIZE)
+
+non_mpa_mean_2017 <- mean(non_mpa_site_2017$SIZE)
+
+non_mpa_mean_2012 - non_mpa_mean_2017
+ 
+# calculate effect size
+cohen_d_test_non <- cohen.d(non_mpa_site_2012$SIZE, non_mpa_site_2017$SIZE)
+cohen_d_test_non
+
+
+## effect size is small which indicates that there likely is NOT a significant difference in mean lobster size at the two sites.
+
+## while there is a significance difference, the effect size is small, the absolute difference in means is small ....
+```
+
+
+4. Proportions of “legal” lobsters at the 5 sites in 2017
+The legal minimum carapace size for lobster is 82.6 mm. What proportion of observed lobsters at each site are above the legal minimum? Does that proportion differ significantly across the 5 sites? Note: We’ll be doing chi-square in labs next week, or go ahead with maximum resourcefulness and check out the chisq.test() function on your own!
+
+```{r}
+# filter for 2017
+# filter for above 82.6 mm
+
+
+legal_min <- lob_size3 %>%
+  filter(YEAR == 2017) %>%
+  mutate(above_legal = case_when(
+    SIZE >= 82.6 ~ 'yes',
+    SIZE < 82.6 ~ 'no'
+  )) %>%
+  count(SITE, above_legal) %>%
+  spread(above_legal, n) %>%
+  select(-SITE)
+                   
+rownames(legal_min) <- c("AQUE", "CARP", "IVEE", "MOHK", "NAPL")
+  
+legal_prop <- prop.table(as.matrix(legal_min), 1)
+
+
+above_x2 <- chisq.test(legal_prop)
+
+above_x2
+
+## The proportion does not differ significantly between each location. 
+
+## should check with office hours
+```
+
+
+
+
+
+
+
 
 
