@@ -15,10 +15,46 @@ library(vcdExtra)
 ```
 
 ```{r}
+# read in the lobster traps dataset
+lob_traps <- read_csv("lobster_traps.csv")
+
+```
+
+```{r}
+# Read in the lobster size data set and make it tidy
+
 lob_size <- read_csv("lobster_size_abundance.csv")
 lob_size1 <- as.data.frame(lob_size)
 
 lob_size2 <- expand.dft(lob_size1, freq = "COUNT") ##expand.dft filters out all count = 0 rows and makes data tidy (each observation has it's own row)
 ```
 Yes boss
+
+```{r}
+lob_size3 <- mutate(lob_size2, DATE = as.Date(DATE, format = '%d-%b-%y')) # make date formats same for both datasets yyyy-mm-dd
+
+lob_traps1 <- mutate(lob_traps, DATE = as.Date(DATE, format = '%m/%d/%y')) # make date formats the same 
+
+```
+
+1. Lobster abundance and fishing pressure (2012 - 2017)
+Describe trends in lobster abundance (counts) and fishing pressure (trap buoys) at the five locations from
+2012 - 2017. Ignore transect information - we are only interested in evaluating abundance and pressure on the
+order of SITE. Note: you are not expected to use regression here - just think of ways to clearly
+describe annual totals visually and in text, noting important trends, events and differences.
+
+```{r}
+# find the counts of lobsters per each site
+lob_counts <- lob_size3 %>%
+  group_by(SITE) %>%
+  dplyr::summarise(count = length(SIZE))
+
+# find the counts of traps per each site
+trap_counts <- lob_traps1 %>% 
+  group_by(SITE) %>%
+  dplyr::summarise(count = length(TRAPS))
+  
+
+```
+
 
