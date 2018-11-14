@@ -16,7 +16,8 @@ library(vcdExtra)
 
 ```{r}
 # read in the lobster traps dataset
-lob_traps <- read_csv("lobster_traps.csv")
+lob_traps <- as.data.frame(read_csv("lobster_traps.csv"))
+
 
 ```
 
@@ -33,7 +34,12 @@ Yes boss
 ```{r}
 lob_size3 <- mutate(lob_size2, DATE = as.Date(DATE, format = '%d-%b-%y')) # make date formats same for both datasets yyyy-mm-dd
 
-lob_traps1 <- mutate(lob_traps, DATE = as.Date(DATE, format = '%m/%d/%y')) # make date formats the same 
+five_sites <- c("AQUE", "CARP", "IVEE", "MOHK", "NAPL")
+
+lob_traps1 <- mutate(lob_traps, DATE = as.Date(DATE, format = '%m/%d/%y')) %>%
+  filter(SITE %in% five_sites)
+
+# make date formats the same and filter for only the 5 sites 
 
 ```
 
@@ -44,16 +50,30 @@ order of SITE. Note: you are not expected to use regression here - just think of
 describe annual totals visually and in text, noting important trends, events and differences.
 
 ```{r}
-# find the counts of lobsters per each site
+# find the counts of lobsters per each site per each year
 lob_counts <- lob_size3 %>%
-  group_by(SITE) %>%
-  dplyr::summarise(count = length(SIZE))
+  group_by(SITE, YEAR) %>%
+  dplyr::summarise(count = length(SIZE)) %>%
+  spread(YEAR, count) %>%
+  ungroup(SITE) %>%
+  select(-SITE)
 
-# find the counts of traps per each site
+rownames(lob_counts) <- c("AQUE", "CARP", "IVEE", "MOHK", "NAPL")
+
+lob_counts_final <- lob_counts %>%
+  select(-SITE)
+
+# find the counts of traps per each site per each year
 trap_counts <- lob_traps1 %>% 
-  group_by(SITE) %>%
-  dplyr::summarise(count = length(TRAPS))
-  
+  group_by(SITE, YEAR) %>%
+  dplyr::summarise(count = length(TRAPS)) %>%
+  spread(YEAR, count) %>%
+  ungroup(SITE) %>%
+  select(-SITE)
+
+rownames(trap_counts) <- c("AQUE", "CARP", "IVEE", "MOHK", "NAPL")
+
+
 
 ```
 
