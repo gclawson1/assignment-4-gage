@@ -14,6 +14,8 @@ library(tidyverse)
 library(vcdExtra)
 library(car)
 library(effsize)
+library(ggsignif)
+library(ggpubr)
 ```
 
 ```{r}
@@ -54,13 +56,6 @@ Describe trends in lobster abundance (counts) and fishing pressure (trap buoys) 
 lob_counts <- lob_size3 %>%
   group_by(SITE, YEAR) %>%
   dplyr::summarise(count_lobs = length(SIZE))
-
-#%>%
-  #spread(YEAR, count) %>%       <<<<< ignore that stuff
-  #ungroup(SITE) %>%
- # select(-SITE)
-
-#rownames(lob_counts) <- c("AQUE", "CARP", "IVEE", "MOHK", "NAPL")
 
 
 # find the counts of traps per each site per each year
@@ -197,10 +192,13 @@ tukey_data1 <- tukey_data %>%
 
 ##use ggsignif function
 
+my_comparisons <- list(c("NAPL", "CARP"), c("NAPL", "IVEE"))
+
 ggplot(lob_mean, aes(x = SITE, y = mean_size)) +
   geom_col() +
   geom_errorbar(aes(ymin =mean_size - sd_size, ymax = mean_size + sd_size), color = "gray0", width = .3) +
-  theme_classic()
+  theme_classic() + 
+  stat_compare_means(comparisons = my_comparisons)
 
 ```
 
