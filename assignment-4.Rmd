@@ -20,5 +20,5 @@ lob_size1 <- as.data.frame(lob_size)
 
 lob_size2 <- expand.dft(lob_size1, freq = "COUNT") ##expand.dft filters out all count = 0 rows and makes data tidy (each observation has it's own row)
 ```
-
+Yes boss
 
