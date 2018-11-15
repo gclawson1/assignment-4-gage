@@ -208,7 +208,7 @@ Lobster size ANOVA results summary.
 
 Ilayda: I tried to make a table as in the example but it doesn't work. Maybe you can fix this Gage.
 
-Gage: Figured it out. If we knit to pdf in the file "xtable_code.Rmd", we can get the table. I also took a screenshot of the table and put it in our project file. 
+Gage: Figured it out. If we knit to pdf in the file "xtable_code.Rmd", we can get the table. I also took a screenshot of the table and put it in our project file. All we need to do is add the screenshot of the table for our final word document. 
 
 ```{r ANOVA_table, echo = FALSE, results = 'asis', message = FALSE}
 
@@ -273,6 +273,8 @@ non_mpa_site <- lob_size3 %>%
 ```{r}
 # sandro talked to allison and apparently we have to do 5 different t tests for EACH SITE, instead of only one ttest for MPA and non mpa 
 
+# these are datasets for our five different t-tests
+
 mpa_2012 <- lob_size3 %>%
   filter(SITE %in% mpa, YEAR == 2012) %>%
   select(SITE,YEAR,SIZE) %>%
@@ -301,107 +303,219 @@ non_mpa_2017 <- lob_size3 %>%
   spread(SITE,SIZE) %>%
   select(-i)
 
-
-
 ```
+
 
 
 
 ```{r}
-# F test for equal variances
+############### MPA SITE IVEE ################
+
+####### F test for equal variances for IVEE 2012 vs 2017 #######
+
 # H0: The variances are equal (ratio of variances = 1)
 # HA: The variances are not equal (ratio of variances != 1)
 
-mpa_ftest <- mpa_site %>%
-  var.test(SIZE ~ YEAR, data = .)
+IVEE_ftest <- var.test(mpa_2012$IVEE, mpa_2017$IVEE)
 
-mpa_ftest
+IVEE_ftest
 # retain the null hypothesis of equal variances
 
 # We can override the default setting in t.test() function of var.equal = FALSE, because the variances are actually likely equal.
 
-# H0: mean Lobster size at mpa sites in 2012 are equal to mean lobster size at mpa sites in 2017
-# HA: mean Lobster size at mpa sites in 2012 are NOT equal to mean lobster size at mpa sites in 2017
+# H0: mean Lobster size at IVEE site in 2012 is equal to mean lobster size at IVEE site in 2017
+# HA: mean Lobster size at IVEE site in 2012 is NOT equal to mean lobster size at IVEE site in 2017
 
-mpa_ttest <- mpa_site %>%
-  t.test(SIZE ~ YEAR, data = ., var.equal = TRUE)
+IVEE_ttest <- t.test(mpa_2012$IVEE, mpa_2017$IVEE, var.equal = TRUE)
 
-mpa_ttest # retain null they are equal
+IVEE_ttest # retain null they are equal, p =0.0599
 
+#calculate the difference in means at IVEE 2012 and 2017
 
+IVEE_mean_2012 <- mean(mpa_2012$IVEE, na.rm = TRUE)
 
-mpa_site_2012 <- lob_size3 %>%
-  filter(SITE %in% mpa, YEAR == 2012) %>%
-  select(SITE,YEAR,SIZE)
+IVEE_mean_2017 <- mean(mpa_2017$IVEE, na.rm = TRUE)
 
-mpa_site_2017 <- lob_size3 %>%
-  filter(SITE %in% mpa, YEAR == 2017) %>%
-  select(SITE,YEAR,SIZE)
+IVEE_mean_2012 - IVEE_mean_2017
+## difference in means is -5.375222 mm
 
-#calculate the difference in means
-
-mpa_mean_2012 <- mean(mpa_site_2012$SIZE)
-
-mpa_mean_2017 <- mean(mpa_site_2017$SIZE)
-
-mpa_mean_2012 - mpa_mean_2017
  
 # calculate effect size
-cohen_d_test <- cohen.d(mpa_site_2012$SIZE, mpa_site_2017$SIZE)
-cohen_d_test
+IVEE_cohen_d <- cohen.d(mpa_2012$IVEE, mpa_2017$IVEE, na.rm = TRUE)
+IVEE_cohen_d
 
 
-## effect size is small which indicates that there likely is NOT a significant difference in mean lobster size at the two sites.
+## effect size is small (d = -0.3775177) which indicates that there likely is NOT a significant difference in mean lobster size between the two years.
+
 ```
 
 ```{r}
-# F test for equal variances
+############### MPA SITE NAPL ################
+
+####### F test for equal variances for NAPL 2012 vs 2017 #######
+
 # H0: The variances are equal (ratio of variances = 1)
 # HA: The variances are not equal (ratio of variances != 1)
 
-non_mpa_ftest <- non_mpa_site %>%
-  var.test(SIZE ~ YEAR, data = .)
+NAPL_ftest <- var.test(mpa_2012$NAPL, mpa_2017$NAPL)
 
-non_mpa_ftest
+NAPL_ftest
 # retain the null hypothesis of equal variances
 
 # We can override the default setting in t.test() function of var.equal = FALSE, because the variances are actually likely equal.
 
-# H0: mean Lobster size at mpa sites in 2012 are equal to mean lobster size at mpa sites in 2017
-# HA: mean Lobster size at mpa sites in 2012 are NOT equal to mean lobster size at mpa sites in 2017
+# H0: mean Lobster size at NAPL site in 2012 is equal to mean lobster size at NAPL site in 2017
+# HA: mean Lobster size at NAPL site in 2012 is NOT equal to mean lobster size at NAPL site in 2017
 
-non_mpa_ttest <- non_mpa_site %>%
-  t.test(SIZE ~ YEAR, data = ., var.equal = TRUE)
+NAPL_ttest <- t.test(mpa_2012$NAPL, mpa_2017$NAPL, var.equal = TRUE)
 
-non_mpa_ttest # reject null they are equal
+NAPL_ttest # retain null they are equal, p =0.5002
 
+#calculate the difference in means at NAPL 2012 and 2017
 
+NAPL_mean_2012 <- mean(mpa_2012$NAPL, na.rm = TRUE)
 
-non_mpa_site_2012 <- lob_size3 %>%
-  filter(SITE %!in% mpa, YEAR == 2012) %>%
-  select(SITE,YEAR,SIZE)
+NAPL_mean_2017 <- mean(mpa_2017$NAPL, na.rm = TRUE)
 
-non_mpa_site_2017 <- lob_size3 %>%
-  filter(SITE %!in% mpa, YEAR == 2017) %>%
-  select(SITE,YEAR,SIZE)
+NAPL_mean_2012 - NAPL_mean_2017
+## difference in means is -3.232143 mm
 
-#calculate the difference in means
-
-non_mpa_mean_2012 <- mean(non_mpa_site_2012$SIZE)
-
-non_mpa_mean_2017 <- mean(non_mpa_site_2017$SIZE)
-
-non_mpa_mean_2012 - non_mpa_mean_2017
  
 # calculate effect size
-cohen_d_test_non <- cohen.d(non_mpa_site_2012$SIZE, non_mpa_site_2017$SIZE)
-cohen_d_test_non
+NAPL_cohen_d <- cohen.d(mpa_2012$NAPL, mpa_2017$NAPL, na.rm = TRUE)
+NAPL_cohen_d
 
 
-## effect size is small which indicates that there likely is NOT a significant difference in mean lobster size at the two sites.
+## effect size is small (d = -0.2834216) which indicates that there likely is NOT a significant difference in mean lobster size between the two years.
 
-## while there is a significance difference, the effect size is small, the absolute difference in means is small ....
 ```
+
+
+```{r}
+############### NON MPA SITE AQUE ################
+
+####### F test for equal variances for AQUE 2012 vs 2017 #######
+
+# H0: The variances are equal (ratio of variances = 1)
+# HA: The variances are not equal (ratio of variances != 1)
+
+AQUE_ftest <- var.test(non_mpa_2012$AQUE, non_mpa_2017$AQUE)
+
+AQUE_ftest
+# retain the null hypothesis of equal variances
+
+# We can override the default setting in t.test() function of var.equal = FALSE, because the variances are actually likely equal.
+
+# H0: mean Lobster size at AQUE site in 2012 is equal to mean lobster size at AQUE site in 2017
+# HA: mean Lobster size at AQUE site in 2012 is NOT equal to mean lobster size at AQUE site in 2017
+
+AQUE_ttest <- t.test(non_mpa_2012$AQUE, non_mpa_2017$AQUE, var.equal = TRUE)
+
+AQUE_ttest # retain null they are equal, p =0.2097
+
+#calculate the difference in means at AQUE 2012 and 2017
+
+AQUE_mean_2012 <- mean(non_mpa_2012$AQUE, na.rm = TRUE)
+
+AQUE_mean_2017 <- mean(non_mpa_2017$AQUE, na.rm = TRUE)
+
+AQUE_mean_2012 - AQUE_mean_2017
+## difference in means is -2.895522 mm
+
+ 
+# calculate effect size
+AQUE_cohen_d <- cohen.d(non_mpa_2012$AQUE, non_mpa_2017$AQUE, na.rm = TRUE)
+AQUE_cohen_d
+
+
+## effect size is small (d = -0.2563169) which indicates that there likely is NOT a significant difference in mean lobster size between the two years.
+
+
+```
+
+```{r}
+############### NON MPA SITE CARP ################
+
+####### F test for equal variances for CARP 2012 vs 2017 #######
+
+# H0: The variances are equal (ratio of variances = 1)
+# HA: The variances are not equal (ratio of variances != 1)
+
+CARP_ftest <- var.test(non_mpa_2012$CARP, non_mpa_2017$CARP)
+
+CARP_ftest
+# retain the null hypothesis of equal variances
+
+# We can override the default setting in t.test() function of var.equal = FALSE, because the variances are actually likely equal.
+
+# H0: mean Lobster size at CARP site in 2012 is equal to mean lobster size at CARP site in 2017
+# HA: mean Lobster size at CARP site in 2012 is NOT equal to mean lobster size at CARP site in 2017
+
+CARP_ttest <- t.test(non_mpa_2012$CARP, non_mpa_2017$CARP, var.equal = TRUE)
+
+CARP_ttest # retain null they are equal, p =0.1819
+
+#calculate the difference in means at CARP 2012 and 2017
+
+CARP_mean_2012 <- mean(non_mpa_2012$CARP, na.rm = TRUE)
+
+CARP_mean_2017 <- mean(non_mpa_2017$CARP, na.rm = TRUE)
+
+CARP_mean_2012 - CARP_mean_2017
+## difference in means is 2.129187 mm
+
+ 
+# calculate effect size
+CARP_cohen_d <- cohen.d(non_mpa_2012$CARP, non_mpa_2017$CARP, na.rm = TRUE)
+CARP_cohen_d
+
+
+## effect size is small (d = 0.1594364) which indicates that there likely is NOT a significant difference in mean lobster size between the two years.
+
+```
+
+```{r}
+############### NON MPA SITE MOHK ################
+
+####### F test for equal variances for MOHK 2012 vs 2017 #######
+
+# H0: The variances are equal (ratio of variances = 1)
+# HA: The variances are not equal (ratio of variances != 1)
+
+MOHK_ftest <- var.test(non_mpa_2012$MOHK, non_mpa_2017$MOHK)
+
+MOHK_ftest
+# retain the null hypothesis of equal variances
+
+# We can override the default setting in t.test() function of var.equal = FALSE, because the variances are actually likely equal.
+
+# H0: mean Lobster size at MOHK site in 2012 is equal to mean lobster size at MOHK site in 2017
+# HA: mean Lobster size at MOHK site in 2012 is NOT equal to mean lobster size at MOHK site in 2017
+
+MOHK_ttest <- t.test(non_mpa_2012$MOHK, non_mpa_2017$MOHK, var.equal = TRUE)
+
+MOHK_ttest # REJECT null they are equal, p = 6.276e-05
+
+#calculate the difference in means at MOHK 2012 and 2017
+
+MOHK_mean_2012 <- mean(non_mpa_2012$MOHK, na.rm = TRUE)
+
+MOHK_mean_2017 <- mean(non_mpa_2017$MOHK, na.rm = TRUE)
+
+MOHK_mean_2012 - MOHK_mean_2017
+## difference in means is 5.253012 mm
+
+ 
+# calculate effect size
+MOHK_cohen_d <- cohen.d(non_mpa_2012$MOHK, non_mpa_2017$MOHK, na.rm = TRUE)
+MOHK_cohen_d
+
+
+## effect size is MEDIUM (d = 0.5408116) which indicates that there likely is a significant difference in mean lobster size between the two years.
+
+```
+
+
 
 
 4. Proportions of “legal” lobsters at the 5 sites in 2017
