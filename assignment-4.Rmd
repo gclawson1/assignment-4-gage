@@ -434,7 +434,7 @@ above_x2
 
 ## should check with office hours
 ```
-
+Based on the obervations from five Long-Term Ecological Research (LTER) Sites in the Santa Barbara Channel:Arroyo Quemado (n= 67) , Naples Reef (n= 112 ), Mohawk Reef (n= 178), Isla Vista (n= 606), Carpinteria(n= 705 ),the proportion of observed lobsters that are above the legal minimum carapace size does not differ significantly by site.( *$\chi$$^2$*(4)= 0.11095, *p*= 0.9985)
 
 
 
