@@ -187,28 +187,31 @@ lobster_ph
 
 tukey_data <- as.data.frame(lobster_ph$SITE) 
 
-tukey_data1 <- tukey_data %>% 
-  rename(p_value = 'p adj') %>%
-  mutate((letter = 
-           case_when(
-             p_value <= 0.05  ~ "a",
-             p_value >= 0.05  ~ "b"
-           )
-         )) 
 
 ## only significant differences between Naples and Carp, and Naples and IV 
 
 
-##use ggsignif function
+
 
 my_comparisons <- list(c("NAPL", "CARP"), c("NAPL", "IVEE"))
 
 ggplot(lob_mean, aes(x = SITE, y = mean_size)) +
-  geom_col() +
+  geom_col(colour = NA, fill = "gray50", width = 0.6) +
   geom_errorbar(aes(ymin =mean_size - sd_size, ymax = mean_size + sd_size), color = "gray0", width = .3) +
-  theme_classic() +
-  stat_compare_means(comparisons = my_comparisons) +
-  stat_compare_means(label.y = 50)
+  scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
+  scale_x_discrete(labels = c("Arroyo Quemado","Carpinteria","Isla Vista","Mohawk Reef","Naples Reef")) +
+  annotate("text", x = 1, y = 90, label = "a,b", family = "Times New Roman") +
+  annotate("text", x = 2, y = 89, label = "a", family = "Times New Roman") +
+  annotate("text", x = 3, y = 89, label = "a", family = "Times New Roman") +
+  annotate("text", x = 4, y = 85, label = "a,b", family = "Times New Roman") +
+  annotate("text", x = 5, y = 91, label = "b", family = "Times New Roman") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),text = element_text(family = "Times New Roman"))+
+  xlab("\n Long-Term Ecological Research Site")+
+  ylab("Mean lobster size (carapace length (mm))") #we can change this title
+  
+#stat_compare_means(comparisons = my_comparisons) +
+  #stat_compare_means(label.y = 50)
 
 ```
 
