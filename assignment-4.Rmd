@@ -349,7 +349,7 @@ IVEE_cohen_d
 
 ```
 
-The mean lobster size at Isla Vista(Marine Protected Area) in 2012 (66.08 ±  mm [mean±sd], n= ) and 2017 (71.45 ±  mm [mean±sd], n= ) did not differ significantly based on a two-sample Student’s t-test (t(630) = -1.885, p = 0.0599, α = 0.05). Also, the effect size is small (Cohen’s d = -0.38) and the absolute difference in mean lobster size between the two years is 5.375 mm.
+The mean lobster size at Isla Vista (Marine Protected Area) in 2012 (66.08 ±  mm [mean±sd], n= ) and 2017 (71.45 ±  mm [mean±sd], n= ) did not differ significantly based on a two-sample Student’s t-test (t(630) = -1.885, p = 0.0599, α = 0.05). Also, the effect size is small (Cohen’s d = -0.38) and the absolute difference in mean lobster size between the two years is 5.375 mm.
 
 ```{r}
 ############### MPA SITE NAPL ################
