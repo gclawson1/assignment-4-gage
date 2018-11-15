@@ -200,6 +200,11 @@ tukey_data <- as.data.frame(lobster_ph$SITE)
 
 
 ```
+The mean lobster size (mm) differed significantly in five Long-Term Ecological Research (LTER) Sites in the Santa Barbara Channel:Arroyo Quemado (n= `r filter(lob_mean,SITE== 'AQUE')$sample_size` , Naples Reef (n= 112 ), Mohawk Reef (n= 178), Isla Vista (n= 606), Carpinteria(n= 705 ) studied (one-way ANOVA, F(4,1663) = `r `, *p* < 0.001, *alpha*= 0.5; Table ...). Post-hoc analysis by Tukey’s HSD revealed that the mean lobster size in Naples Reef differed significantly from Carpinteria and Isla Vista (pairwise *p* < 0.001).
+
+Ilayda: needs referencing for F value.
+
+
 Lobster size ANOVA results summary.
 
 Ilayda: I tried to make a table as in the example but it doesn't work. Maybe you can fix this Gage.

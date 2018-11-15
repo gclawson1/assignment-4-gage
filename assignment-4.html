@@ -372,13 +372,22 @@ lobster_ph</code></pre>
 
 
 #my_comparisons &lt;- list(c(&quot;NAPL&quot;, &quot;CARP&quot;), c(&quot;NAPL&quot;, &quot;IVEE&quot;))</code></pre>
+<p>The mean lobster size (mm) differed significantly in five Long-Term Ecological Research (LTER) Sites in the Santa Barbara Channel:Arroyo Quemado (n= 67 , Naples Reef (n= ), Mohawk Reef (n=), Isla Vista (n=), Carpinteria(n= ) studied (one-way ANOVA, F(4,1663) = <code>r</code>, <em>p</em> &lt; 0.001, <em>alpha</em>= 0.5; Table …). Post-hoc analysis by Tukey’s HSD revealed that the mean lobster size in Naples Reef differed significantly from Carpinteria and Isla Vista (pairwise <em>p</em> &lt; 0.001)</p>
+<p>Ilayda: needs referencing for F value.</p>
 <p>Lobster size ANOVA results summary.</p>
-<pre><code>## &lt;table border=1&gt;
-## &lt;caption align=&quot;top&quot;&gt; Lobster Size ANOVA results summary. &lt;/caption&gt;
-## &lt;tr&gt; &lt;th&gt;  &lt;/th&gt; &lt;th&gt; Df &lt;/th&gt; &lt;th&gt; Sum Sq &lt;/th&gt; &lt;th&gt; Mean Sq &lt;/th&gt; &lt;th&gt; F value &lt;/th&gt; &lt;th&gt; Pr(&amp;gt;F) &lt;/th&gt;  &lt;/tr&gt;
-##   &lt;tr&gt; &lt;td&gt; SITE &lt;/td&gt; &lt;td align=&quot;right&quot;&gt; 4 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt; 2354.51 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt; 588.63 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt; 3.42 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt; 0.0085 &lt;/td&gt; &lt;/tr&gt;
-##   &lt;tr&gt; &lt;td&gt; Residuals &lt;/td&gt; &lt;td align=&quot;right&quot;&gt; 1663 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt; 285871.12 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt; 171.90 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  &lt;/td&gt; &lt;/tr&gt;
-##    &lt;/table&gt;</code></pre>
+<p>Ilayda: I tried to make a table as in the example but it doesn’t work. Maybe you can fix this Gage.</p>
+<pre><code>## \begin{table}[ht]
+## \centering
+## \caption{Lobster Size ANOVA results summary.} 
+## \begin{tabular}{lrrrrr}
+##   \hline
+##  &amp; Df &amp; Sum Sq &amp; Mean Sq &amp; F value &amp; Pr($&gt;$F) \\ 
+##   \hline
+## SITE &amp; 4 &amp; 2354.51 &amp; 588.63 &amp; 3.42 &amp; 0.0085 \\ 
+##   Residuals &amp; 1663 &amp; 285871.12 &amp; 171.90 &amp;  &amp;  \\ 
+##    \hline
+## \end{tabular}
+## \end{table}</code></pre>
 <pre class="r"><code>ggplot(lob_mean, aes(x = SITE, y = mean_size)) +
   geom_col(colour = NA, fill = &quot;gray50&quot;, width = 0.6) +
   geom_errorbar(aes(ymin =mean_size - sd_size, ymax = mean_size + sd_size), color = &quot;gray0&quot;, width = .3) +
