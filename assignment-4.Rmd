@@ -233,10 +233,9 @@ ggplot(lob_mean, aes(x = SITE, y = mean_size)) +
   xlab("\n Long-Term Ecological Research Site")+
   ylab("Mean lobster size (carapace length (mm))") #we can change this title
   
-#stat_compare_means(comparisons = my_comparisons) +
-  #stat_compare_means(label.y = 50)
-
 ```
+**Figure 2. Lobster size in five Long-Term Ecological Research Sites.** Mean lobster sizes (mm) for sites Arroyo Quemado, Carpinteria,Isla Vista,Mohawk Reef,Naples Reef in the Santa Barbara Channel. Error bars indicate +/- 1 standard deviation. Like letters indicate values that do not differ significantly (by one-way ANOVA with Tukey's HSD; F(4,1663) = 3.424, *p* < 0.001), with $\alpha$ = 0.05 for all post-hoc pairwise comparisons).
+
 
 3. Changes in lobster size at MPA and non-MPA sites (comparing only 2012 and 2017 sizes)
 From the data description (http://sbc.lternet.edu/cgi-bin/showDataset.cgi?docid=knb-lter-sbc.77):
