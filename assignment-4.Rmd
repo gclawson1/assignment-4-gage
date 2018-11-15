@@ -16,6 +16,10 @@ library(car)
 library(effsize)
 library(ggsignif)
 library(ggpubr)
+library(knitr)
+library(FSA)
+library(kableExtra)
+library(xtable)
 ```
 
 ```{r}
@@ -172,6 +176,7 @@ var_table <- lob_size_2017 %>%
 lobster_aov <- aov(SIZE ~ SITE, data = lob_size_2017)
 summary(lobster_aov)
 
+
 # H0: Mean sizes across all sites are equal
 # HA: There is at least one significant difference in means between the 5 sites
 
@@ -191,10 +196,23 @@ tukey_data <- as.data.frame(lobster_ph$SITE)
 ## only significant differences between Naples and Carp, and Naples and IV 
 
 
+#my_comparisons <- list(c("NAPL", "CARP"), c("NAPL", "IVEE"))
 
 
-my_comparisons <- list(c("NAPL", "CARP"), c("NAPL", "IVEE"))
+```
+Lobster size ANOVA results summary.
 
+Ilayda: I tried to make a table as in the example but it doesn't work. Maybe you can fix this Gage.
+
+```{r xtable,message=FALSE,warning=FALSE,echo=FALSE}
+
+table <- xtable(lobster_aov, caption = 'Lobster Size ANOVA results summary.')
+print(table, comment = FALSE, caption.placement = "top")
+
+```
+
+
+```{r}
 ggplot(lob_mean, aes(x = SITE, y = mean_size)) +
   geom_col(colour = NA, fill = "gray50", width = 0.6) +
   geom_errorbar(aes(ymin =mean_size - sd_size, ymax = mean_size + sd_size), color = "gray0", width = .3) +
