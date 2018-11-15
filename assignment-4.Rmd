@@ -93,20 +93,14 @@ ggplot(trap_counts, aes(x = YEAR, y = count_traps)) +
   scale_x_continuous(breaks = seq(2012,2017, by = 1)) 
   
 
-ggplot(new_lob_traps, aes(x = YEAR, y = count_lobs)) +
-  geom_line() +
-  geom_point() +
+ggplot(new_lob_traps, aes(x = YEAR)) +
+  geom_line(aes(y = count_lobs, color = "blue")) +
+  geom_point(aes(y = count_lobs, color = "blue")) +
+  geom_line(aes(y = count_traps, color = "red")) +
+  geom_point(aes(y = count_traps, color = "red")) + 
   facet_wrap(~SITE, scales = "free") +
-  theme_classic() 
-
-ggplot(trap_counts, aes(x = YEAR, y = count_traps)) +
-  geom_line() +
-  geom_point() +
-  facet_wrap(~SITE, scales = "free") + 
-  theme_classic()
-
-
-# try anova per each site for counts??
+  theme_classic() +
+  scale_color_manual(values = c("#00AFBB", "#E7B800"), name = "Count", labels = c("Lobsters", "Traps")) 
 
 ```
 
