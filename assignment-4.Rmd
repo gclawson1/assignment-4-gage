@@ -2,14 +2,17 @@
 title: "assignment-4"
 author: "Gage Clawson"
 date: "11/13/2018"
-output: html_document
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, include=FALSE}
 library(tidyverse)
 library(vcdExtra)
 library(car)
@@ -20,6 +23,7 @@ library(knitr)
 library(FSA)
 library(kableExtra)
 library(xtable)
+library(kableExtra)
 ```
 
 ```{r}
@@ -93,15 +97,20 @@ ggplot(trap_counts, aes(x = YEAR, y = count_traps)) +
   scale_x_continuous(breaks = seq(2012,2017, by = 1)) 
   
 
-ggplot(new_lob_traps, aes(x = YEAR)) +
+## line graph of lobster vs trap counts per each year per each site
+lob_vs_trap_counts <- ggplot(new_lob_traps, aes(x = YEAR)) +
   geom_line(aes(y = count_lobs, color = "blue")) +
   geom_point(aes(y = count_lobs, color = "blue")) +
   geom_line(aes(y = count_traps, color = "red")) +
   geom_point(aes(y = count_traps, color = "red")) + 
   facet_wrap(~SITE, scales = "free") +
   theme_classic() +
-  scale_color_manual(values = c("#00AFBB", "#E7B800"), name = "Count", labels = c("Lobsters", "Traps")) 
+  scale_color_manual(values = c("#00AFBB", "#E7B800"), name = "Count", labels = c("Lobsters", "Traps")) +
+  labs(x = "Year", y = "Count Totals")
 
+lob_vs_trap_counts
+
+## add caption to graph to explain what is contained within it. 
 ```
 
 
@@ -189,10 +198,6 @@ tukey_data <- as.data.frame(lobster_ph$SITE)
 
 ## only significant differences between Naples and Carp, and Naples and IV 
 
-
-#my_comparisons <- list(c("NAPL", "CARP"), c("NAPL", "IVEE"))
-
-
 ```
 The mean lobster size (mm) differed significantly in five Long-Term Ecological Research (LTER) Sites in the Santa Barbara Channel:Arroyo Quemado (n= `r filter(lob_mean,SITE== 'AQUE')$sample_size` , Naples Reef (n= 112 ), Mohawk Reef (n= 178), Isla Vista (n= 606), Carpinteria(n= 705 ) studied (one-way ANOVA, F(4,1663) = `r `, *p* < 0.001, *alpha*= 0.5; Table ...). Post-hoc analysis by Tukey’s HSD revealed that the mean lobster size in Naples Reef differed significantly from Carpinteria and Isla Vista (pairwise *p* < 0.001).
 
@@ -203,10 +208,13 @@ Lobster size ANOVA results summary.
 
 Ilayda: I tried to make a table as in the example but it doesn't work. Maybe you can fix this Gage.
 
-```{r xtable,message=FALSE,warning=FALSE,echo=FALSE}
+Gage: Figured it out. If we knit to pdf in the file "xtable_code.Rmd", we can get the table. I also took a screenshot of the table and put it in our project file. 
 
-table <- xtable(lobster_aov, caption = 'Lobster Size ANOVA results summary.')
-print(table, comment = FALSE, caption.placement = "top")
+```{r ANOVA_table, echo = FALSE, results = 'asis', message = FALSE}
+
+#table <- xtable(lobster_aov, caption = 'Lobster Size ANOVA results summary.')
+#print(table, comment = FALSE, caption.placement = "top")
+
 
 ```
 
@@ -226,8 +234,8 @@ ggplot(lob_mean, aes(x = SITE, y = mean_size)) +
         panel.background = element_blank(), axis.line = element_line(colour = "black"),text = element_text(family = "Times New Roman"))+
   xlab("\n Long-Term Ecological Research Site")+
   ylab("Mean lobster size (carapace length (mm))") #we can change this title
-  
 ```
+
 **Figure 2. Lobster size in five Long-Term Ecological Research Sites.** Mean lobster sizes (mm) for sites Arroyo Quemado, Carpinteria,Isla Vista,Mohawk Reef,Naples Reef in the Santa Barbara Channel. Error bars indicate +/- 1 standard deviation. Like letters indicate values that do not differ significantly (by one-way ANOVA with Tukey's HSD; F(4,1663) = 3.424, *p* < 0.001), with $\alpha$ = 0.05 for all post-hoc pairwise comparisons).
 
 

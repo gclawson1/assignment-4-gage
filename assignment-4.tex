@@ -1,0 +1,881 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={assignment-4},
+            pdfauthor={Gage Clawson},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{{#1}}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{assignment-4}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Gage Clawson}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{11/13/2018}
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# read in the lobster traps dataset}
+\NormalTok{lob_traps <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{read_csv}\NormalTok{(}\StringTok{"lobster_traps.csv"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Parsed with column specification:
+## cols(
+##   YEAR = col_integer(),
+##   MONTH = col_integer(),
+##   DATE = col_character(),
+##   FISHING_SEASON = col_character(),
+##   SITE = col_character(),
+##   SWATH_START = col_character(),
+##   SWATH_END = col_character(),
+##   TRAPS = col_integer(),
+##   OBSERVER = col_integer(),
+##   NOTES = col_character()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Read in the lobster size data set and make it tidy}
+
+\NormalTok{lob_size <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"lobster_size_abundance.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Parsed with column specification:
+## cols(
+##   YEAR = col_integer(),
+##   MONTH = col_integer(),
+##   DATE = col_character(),
+##   SITE = col_character(),
+##   SBC_LTER_TRANSECT = col_integer(),
+##   LOBSTER_TRANSECT = col_character(),
+##   SIZE = col_integer(),
+##   COUNT = col_integer()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lob_size1 <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(lob_size)}
+
+\NormalTok{lob_size2 <-}\StringTok{ }\KeywordTok{expand.dft}\NormalTok{(lob_size1, }\DataTypeTok{freq =} \StringTok{"COUNT"}\NormalTok{) ##expand.dft filters out all count = 0 rows and makes data tidy (each observation has it's own row)}
+\end{Highlighting}
+\end{Shaded}
+
+Yes boss
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lob_size3 <-}\StringTok{ }\KeywordTok{mutate}\NormalTok{(lob_size2, }\DataTypeTok{DATE =} \KeywordTok{as.Date}\NormalTok{(DATE, }\DataTypeTok{format =} \StringTok{'%d-%b-%y'}\NormalTok{)) }\CommentTok{# make date formats same for both datasets yyyy-mm-dd}
+
+\NormalTok{three_sites <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"AQUE"}\NormalTok{, }\StringTok{"CARP"}\NormalTok{, }\StringTok{"MOHK"}\NormalTok{)}
+
+\NormalTok{lob_traps1 <-}\StringTok{ }\KeywordTok{mutate}\NormalTok{(lob_traps, }\DataTypeTok{DATE =} \KeywordTok{as.Date}\NormalTok{(DATE, }\DataTypeTok{format =} \StringTok{'%m/%d/%y'}\NormalTok{)) %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(SITE %in%}\StringTok{ }\NormalTok{three_sites, TRAPS !=}\StringTok{ }\DecValTok{0}\NormalTok{) %>%}
+\StringTok{    }\KeywordTok{expand.dft}\NormalTok{(}\DataTypeTok{freq =} \StringTok{"TRAPS"}\NormalTok{) }
+  
+
+
+\CommentTok{# make date formats the same and filter for only the 5 sites }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Lobster abundance and fishing pressure (2012 - 2017) Describe trends
+  in lobster abundance (counts) and fishing pressure (trap buoys) at the
+  five locations from 2012 - 2017. Ignore transect information - we are
+  only interested in evaluating abundance and pressure on the order of
+  SITE. Note: you are not expected to use regression here - just think
+  of ways to clearly describe annual totals visually and in text, noting
+  important trends, events and differences.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# find the counts of lobsters per each site per each year}
+\NormalTok{lob_counts <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(SITE, YEAR) %>%}
+\StringTok{  }\NormalTok{dplyr::}\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{count_lobs =} \KeywordTok{length}\NormalTok{(SIZE))}
+
+
+\CommentTok{# find the counts of traps per each site per each year}
+\NormalTok{trap_counts <-}\StringTok{ }\NormalTok{lob_traps1 %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(SITE, YEAR) %>%}
+\StringTok{  }\NormalTok{dplyr::}\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{count_traps =} \KeywordTok{length}\NormalTok{(OBSERVER))}
+
+
+
+\NormalTok{new_lob_traps <-}\StringTok{ }\KeywordTok{left_join}\NormalTok{(lob_counts, trap_counts, }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"YEAR"}\NormalTok{, }\StringTok{"SITE"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Column `SITE` joining factors with different levels, coercing to
+## character vector
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{new_lob_traps[}\KeywordTok{is.na}\NormalTok{(new_lob_traps)] <-}\StringTok{ }\DecValTok{0}  \NormalTok{## new_lob_traps is the final table for counts per each site per each year for number of lobsters and traps}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# graphs displaying trends}
+
+\KeywordTok{ggplot}\NormalTok{(new_lob_traps, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{YEAR, }\DataTypeTok{y =} \NormalTok{count_lobs)) +}
+\StringTok{  }\KeywordTok{geom_col}\NormalTok{() +}\StringTok{ }
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(~SITE, }\DataTypeTok{scales =} \StringTok{"free"}\NormalTok{) +}
+\StringTok{  }\KeywordTok{theme_classic}\NormalTok{() +}
+\StringTok{  }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{breaks =} \KeywordTok{seq}\NormalTok{(}\DecValTok{2012}\NormalTok{,}\DecValTok{2017}\NormalTok{, }\DataTypeTok{by =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment-4_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(trap_counts, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{YEAR, }\DataTypeTok{y =} \NormalTok{count_traps)) +}
+\StringTok{  }\KeywordTok{geom_col}\NormalTok{() +}\StringTok{ }
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(~SITE, }\DataTypeTok{scales =} \StringTok{"free"}\NormalTok{) +}\StringTok{ }
+\StringTok{  }\KeywordTok{theme_classic}\NormalTok{() +}
+\StringTok{  }\KeywordTok{scale_x_continuous}\NormalTok{(}\DataTypeTok{breaks =} \KeywordTok{seq}\NormalTok{(}\DecValTok{2012}\NormalTok{,}\DecValTok{2017}\NormalTok{, }\DataTypeTok{by =} \DecValTok{1}\NormalTok{)) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment-4_files/figure-latex/unnamed-chunk-6-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## line graph of lobster vs trap counts per each year per each site}
+\NormalTok{lob_vs_trap_counts <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(new_lob_traps, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{YEAR)) +}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =} \NormalTok{count_lobs, }\DataTypeTok{color =} \StringTok{"blue"}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =} \NormalTok{count_lobs, }\DataTypeTok{color =} \StringTok{"blue"}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =} \NormalTok{count_traps, }\DataTypeTok{color =} \StringTok{"red"}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =} \NormalTok{count_traps, }\DataTypeTok{color =} \StringTok{"red"}\NormalTok{)) +}\StringTok{ }
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(~SITE, }\DataTypeTok{scales =} \StringTok{"free"}\NormalTok{) +}
+\StringTok{  }\KeywordTok{theme_classic}\NormalTok{() +}
+\StringTok{  }\KeywordTok{scale_color_manual}\NormalTok{(}\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"#00AFBB"}\NormalTok{, }\StringTok{"#E7B800"}\NormalTok{), }\DataTypeTok{name =} \StringTok{"Count"}\NormalTok{, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"Lobsters"}\NormalTok{, }\StringTok{"Traps"}\NormalTok{)) +}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Year"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Count Totals"}\NormalTok{)}
+
+\NormalTok{lob_vs_trap_counts}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment-4_files/figure-latex/unnamed-chunk-6-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## add caption to graph to explain what is contained within it. }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Compare mean lobster size by site in 2017 Compare mean lobster sizes
+  (carapace length (mm)) across the five sites for lobster observations
+  collected in
+\item
+  Warning: the size data are not in tidy format. There are rows that
+  contain size information for multiple lobsters observed (e.g., if the
+  researcher saw 3 lobsters all with carapace length \textasciitilde{}
+  60 mm, then they will have a single row where COUNT = 3 and SIZE =
+  60). You'll want to get this into case format - where each lobster has
+  its own row - before doing statistical analyses. There are many ways
+  to do this. One hint: function expand.dft in the vcdExtra package (it
+  doesn't like tibbles, so you might need to coerce to data.frame
+  first).
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lob_mean <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(YEAR ==}\StringTok{ }\DecValTok{2017}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(SITE) %>%}
+\StringTok{  }\NormalTok{dplyr::}\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{mean_size =} \KeywordTok{mean}\NormalTok{(SIZE), }\DataTypeTok{sample_size =} \KeywordTok{length}\NormalTok{(SIZE), }\DataTypeTok{sd_size =} \KeywordTok{sd}\NormalTok{(SIZE))}
+
+\NormalTok{lob_size_2017 <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(YEAR ==}\StringTok{ }\DecValTok{2017}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(YEAR, SITE, SIZE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{##exploratory graphs}
+
+\NormalTok{hists <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(lob_size_2017, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{SIZE)) +}
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{fill =} \NormalTok{SITE)) +}\StringTok{ }
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(~SITE)}
+
+\NormalTok{hists}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{assignment-4_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qq <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(lob_size_2017, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{sample =} \NormalTok{SIZE)) +}
+\StringTok{  }\KeywordTok{geom_qq}\NormalTok{() +}
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(~SITE)}
+
+\NormalTok{qq}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment-4_files/figure-latex/unnamed-chunk-8-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## histogram and qqplots indicate normality}
+
+\CommentTok{# Levene's test for equal variances }
+\CommentTok{# We'll use the function leveneTest from the 'car' package}
+
+\CommentTok{# H0: Variances are equal}
+\CommentTok{# HA: Variances are unequal}
+
+\NormalTok{lobster_levene <-}\StringTok{ }\KeywordTok{leveneTest}\NormalTok{(SIZE ~}\StringTok{ }\NormalTok{SITE, }\DataTypeTok{data =} \NormalTok{lob_size_2017)}
+\NormalTok{lobster_levene}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Levene's Test for Homogeneity of Variance (center = median)
+##         Df F value    Pr(>F)    
+## group    4  8.3893 1.065e-06 ***
+##       1663                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# we reject the null hypothesis of equal variances (p < 0.05)}
+
+\NormalTok{var_table <-}\StringTok{ }\NormalTok{lob_size_2017 %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(SITE) %>%}
+\StringTok{  }\NormalTok{dplyr::}\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{variance =} \KeywordTok{var}\NormalTok{(SIZE))}
+
+\CommentTok{# since largest variance < 4X larger than the smallest variance, can still use ANOVA}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lobster_aov <-}\StringTok{ }\KeywordTok{aov}\NormalTok{(SIZE ~}\StringTok{ }\NormalTok{SITE, }\DataTypeTok{data =} \NormalTok{lob_size_2017)}
+\NormalTok{new_lobster_aov <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(lobster_aov)}
+
+
+\CommentTok{# H0: Mean sizes across all sites are equal}
+\CommentTok{# HA: There is at least one significant difference in means between the 5 sites}
+
+\CommentTok{# reject the null}
+
+\CommentTok{# At least two samples were taken from populations with different means. Which ones are different? All three are different from eachother? Or something else?}
+
+
+\CommentTok{# Post hoc testing using Tukey's HSD}
+
+\NormalTok{lobster_ph <-}\StringTok{ }\KeywordTok{TukeyHSD}\NormalTok{(lobster_aov)}
+\NormalTok{lobster_ph}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = SIZE ~ SITE, data = lob_size_2017)
+## 
+## $SITE
+##                 diff         lwr      upr     p adj
+## CARP-AQUE -1.6657352 -6.24294710 2.911477 0.8582355
+## IVEE-AQUE -2.4433772 -7.05292315 2.166169 0.5968998
+## MOHK-AQUE -1.8955224 -7.02720717 3.236162 0.8514711
+## NAPL-AQUE  2.3366205 -3.19311600 7.866357 0.7775633
+## IVEE-CARP -0.7776420 -2.76097123 1.205687 0.8216104
+## MOHK-CARP -0.2297872 -3.23309697 2.773523 0.9995765
+## NAPL-CARP  4.0023556  0.36042398 7.644287 0.0228728
+## MOHK-IVEE  0.5478548 -2.50450730 3.600217 0.9882889
+## NAPL-IVEE  4.7799976  1.09751057 8.462485 0.0037001
+## NAPL-MOHK  4.2321429 -0.08607271 8.550358 0.0579286
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tukey_data <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(lobster_ph$SITE) }
+
+
+\NormalTok{## only significant differences between Naples and Carp, and Naples and IV }
+\end{Highlighting}
+\end{Shaded}
+
+The mean lobster size (mm) differed significantly in five Long-Term
+Ecological Research (LTER) Sites in the Santa Barbara Channel:Arroyo
+Quemado (n= 67 , Naples Reef (n= 112 ), Mohawk Reef (n= 178), Isla Vista
+(n= 606), Carpinteria(n= 705 ) studied (one-way ANOVA, F(4,1663) =
+\texttt{r}, \emph{p} \textless{} 0.001, \emph{alpha}= 0.5; Table
+\ldots{}). Post-hoc analysis by Tukey's HSD revealed that the mean
+lobster size in Naples Reef differed significantly from Carpinteria and
+Isla Vista (pairwise \emph{p} \textless{} 0.001).
+
+Ilayda: needs referencing for F value.
+
+Lobster size ANOVA results summary.
+
+Ilayda: I tried to make a table as in the example but it doesn't work.
+Maybe you can fix this Gage.
+
+\begin{table}[ht]
+\centering
+\caption{Lobster Size ANOVA results summary.} 
+\begin{tabular}{lrrrrr}
+  \hline
+ & Df & Sum Sq & Mean Sq & F value & Pr($>$F) \\ 
+  \hline
+SITE & 4 & 2354.51 & 588.63 & 3.42 & 0.0085 \\ 
+  Residuals & 1663 & 285871.12 & 171.90 &  &  \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+ggplot(lob\_mean, aes(x = SITE, y = mean\_size)) + geom\_col(colour =
+NA, fill = ``gray50'', width = 0.6) + geom\_errorbar(aes(ymin
+=mean\_size - sd\_size, ymax = mean\_size + sd\_size), color =
+``gray0'', width = .3) + scale\_y\_continuous(expand = c(0,0), limits =
+c(0,100)) + scale\_x\_discrete(labels = c(``Arroyo
+Quemado'',``Carpinteria'',``Isla Vista'',``Mohawk Reef'',``Naples
+Reef'')) + annotate(``text'', x = 1, y = 90, label = ``a,b'', family =
+``Times New Roman'') + annotate(``text'', x = 2, y = 89, label = ``a'',
+family = ``Times New Roman'') + annotate(``text'', x = 3, y = 89, label
+= ``a'', family = ``Times New Roman'') + annotate(``text'', x = 4, y =
+85, label = ``a,b'', family = ``Times New Roman'') + annotate(``text'',
+x = 5, y = 91, label = ``b'', family = ``Times New Roman'') +
+theme(panel.grid.major = element\_blank(), panel.grid.minor =
+element\_blank(), panel.background = element\_blank(), axis.line =
+element\_line(colour = ``black''),text = element\_text(family = ``Times
+New Roman''))+ xlab(``\n Long-Term Ecological Research Site'')+
+ylab(``Mean lobster size (carapace length (mm))'') \#we can change this
+title
+
+\textbf{Figure 2. Lobster size in five Long-Term Ecological Research
+Sites.} Mean lobster sizes (mm) for sites Arroyo Quemado,
+Carpinteria,Isla Vista,Mohawk Reef,Naples Reef in the Santa Barbara
+Channel. Error bars indicate +/- 1 standard deviation. Like letters
+indicate values that do not differ significantly (by one-way ANOVA with
+Tukey's HSD; F(4,1663) = 3.424, \emph{p} \textless{} 0.001), with
+\(\alpha\) = 0.05 for all post-hoc pairwise comparisons).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Changes in lobster size at MPA and non-MPA sites (comparing only 2012
+  and 2017 sizes) From the data description
+  (\url{http://sbc.lternet.edu/cgi-bin/showDataset.cgi?docid=knb-lter-sbc.77}):
+  ``Data on abundance, size and fishing pressure of California spiny
+  lobster (Panulirus interruptus) are collected along the mainland coast
+  of the Santa Barbara Channel. Spiny lobsters are an important predator
+  in giant kelp forests off southern California. Two SBC LTER study
+  reefs are located in or near the California Fish and Game Network of
+  Marine Protected Areas (MPA), Naples and Isla Vista, both established
+  as MPAs on 2012-01-01. MPAs provide a unique opportunity to
+  investigate the effects of fishing on kelp forest community dynamics.
+  Sampling began in 2012 and is ongoing.'' At Isla Vista and Naples
+  Reef, the two protected MPA sites (with zero fishing pressure), how do
+  lobster sizes in 2012 and 2017 compare? At the non-MPA sites?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mpa <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"IVEE"}\NormalTok{, }\StringTok{"NAPL"}\NormalTok{) }
+
+\StringTok{'%!in%'} \NormalTok{<-}\StringTok{ }\NormalTok{function(x,y)!(}\StringTok{'%in%'}\NormalTok{(x,y))}
+
+\NormalTok{## filter for mpa sites and 2017 or 2012}
+
+\NormalTok{mpa_site <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(SITE %in%}\StringTok{ }\NormalTok{mpa, YEAR ==}\StringTok{ }\DecValTok{2012}\NormalTok{|YEAR ==}\StringTok{ }\DecValTok{2017}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(SITE,YEAR,SIZE)}
+
+\NormalTok{## filter for non mpa sites and 2017 or 2012}
+\NormalTok{non_mpa_site <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(SITE %!in%}\StringTok{ }\NormalTok{mpa, YEAR==}\DecValTok{2012}\NormalTok{|YEAR==}\DecValTok{2017}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(SITE,YEAR,SIZE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# sandro talked to allison and apparently we have to do 5 different t tests for EACH SITE, instead of only one ttest for MPA and non mpa }
+
+\NormalTok{mpa_2012 <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(SITE %in%}\StringTok{ }\NormalTok{mpa, YEAR ==}\StringTok{ }\DecValTok{2012}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(SITE,YEAR,SIZE) %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{( }\DataTypeTok{i =} \KeywordTok{row_number}\NormalTok{()) %>%}
+\StringTok{  }\KeywordTok{spread}\NormalTok{(SITE,SIZE) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(-i)}
+
+\NormalTok{mpa_2017 <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(SITE %in%}\StringTok{ }\NormalTok{mpa, YEAR ==}\StringTok{ }\DecValTok{2017}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(SITE,YEAR,SIZE) %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{( }\DataTypeTok{i =} \KeywordTok{row_number}\NormalTok{()) %>%}
+\StringTok{  }\KeywordTok{spread}\NormalTok{(SITE,SIZE) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(-i)}
+
+\NormalTok{non_mpa_2012 <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(SITE %!in%}\StringTok{ }\NormalTok{mpa, YEAR ==}\StringTok{ }\DecValTok{2012}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(SITE,YEAR,SIZE) %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{( }\DataTypeTok{i =} \KeywordTok{row_number}\NormalTok{()) %>%}
+\StringTok{  }\KeywordTok{spread}\NormalTok{(SITE,SIZE) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(-i)}
+
+\NormalTok{non_mpa_2017 <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(SITE %!in%}\StringTok{ }\NormalTok{mpa, YEAR ==}\StringTok{ }\DecValTok{2017}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(SITE,YEAR,SIZE) %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{( }\DataTypeTok{i =} \KeywordTok{row_number}\NormalTok{()) %>%}
+\StringTok{  }\KeywordTok{spread}\NormalTok{(SITE,SIZE) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(-i)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# F test for equal variances}
+\CommentTok{# H0: The variances are equal (ratio of variances = 1)}
+\CommentTok{# HA: The variances are not equal (ratio of variances != 1)}
+
+\NormalTok{mpa_ftest <-}\StringTok{ }\NormalTok{mpa_site %>%}
+\StringTok{  }\KeywordTok{var.test}\NormalTok{(SIZE ~}\StringTok{ }\NormalTok{YEAR, }\DataTypeTok{data =} \NormalTok{.)}
+
+\NormalTok{mpa_ftest}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  F test to compare two variances
+## 
+## data:  SIZE by YEAR
+## F = 0.75323, num df = 31, denom df = 717, p-value = 0.3346
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.477719 1.341900
+## sample estimates:
+## ratio of variances 
+##          0.7532319
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# retain the null hypothesis of equal variances}
+
+\CommentTok{# We can override the default setting in t.test() function of var.equal = FALSE, because the variances are actually likely equal.}
+
+\CommentTok{# H0: mean Lobster size at mpa sites in 2012 are equal to mean lobster size at mpa sites in 2017}
+\CommentTok{# HA: mean Lobster size at mpa sites in 2012 are NOT equal to mean lobster size at mpa sites in 2017}
+
+\NormalTok{mpa_ttest <-}\StringTok{ }\NormalTok{mpa_site %>%}
+\StringTok{  }\KeywordTok{t.test}\NormalTok{(SIZE ~}\StringTok{ }\NormalTok{YEAR, }\DataTypeTok{data =} \NormalTok{., }\DataTypeTok{var.equal =} \OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{mpa_ttest }\CommentTok{# retain null they are equal}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Two Sample t-test
+## 
+## data:  SIZE by YEAR
+## t = -1.9159, df = 748, p-value = 0.05576
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -9.7644724  0.1189292
+## sample estimates:
+## mean in group 2012 mean in group 2017 
+##           67.37500           72.19777
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mpa_site_2012 <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(SITE %in%}\StringTok{ }\NormalTok{mpa, YEAR ==}\StringTok{ }\DecValTok{2012}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(SITE,YEAR,SIZE)}
+
+\NormalTok{mpa_site_2017 <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(SITE %in%}\StringTok{ }\NormalTok{mpa, YEAR ==}\StringTok{ }\DecValTok{2017}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(SITE,YEAR,SIZE)}
+
+\CommentTok{#calculate the difference in means}
+
+\NormalTok{mpa_mean_2012 <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(mpa_site_2012$SIZE)}
+
+\NormalTok{mpa_mean_2017 <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(mpa_site_2017$SIZE)}
+
+\NormalTok{mpa_mean_2012 -}\StringTok{ }\NormalTok{mpa_mean_2017}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -4.822772
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# calculate effect size}
+\NormalTok{cohen_d_test <-}\StringTok{ }\KeywordTok{cohen.d}\NormalTok{(mpa_site_2012$SIZE, mpa_site_2017$SIZE)}
+\NormalTok{cohen_d_test}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Cohen's d
+## 
+## d estimate: -0.3461506 (small)
+## 95 percent confidence interval:
+##          inf          sup 
+## -0.701270908  0.008969759
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## effect size is small which indicates that there likely is NOT a significant difference in mean lobster size at the two sites.}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# F test for equal variances}
+\CommentTok{# H0: The variances are equal (ratio of variances = 1)}
+\CommentTok{# HA: The variances are not equal (ratio of variances != 1)}
+
+\NormalTok{non_mpa_ftest <-}\StringTok{ }\NormalTok{non_mpa_site %>%}
+\StringTok{  }\KeywordTok{var.test}\NormalTok{(SIZE ~}\StringTok{ }\NormalTok{YEAR, }\DataTypeTok{data =} \NormalTok{.)}
+
+\NormalTok{non_mpa_ftest}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  F test to compare two variances
+## 
+## data:  SIZE by YEAR
+## F = 0.99085, num df = 198, denom df = 949, p-value = 0.953
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.8037718 1.2406929
+## sample estimates:
+## ratio of variances 
+##          0.9908519
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# retain the null hypothesis of equal variances}
+
+\CommentTok{# We can override the default setting in t.test() function of var.equal = FALSE, because the variances are actually likely equal.}
+
+\CommentTok{# H0: mean Lobster size at mpa sites in 2012 are equal to mean lobster size at mpa sites in 2017}
+\CommentTok{# HA: mean Lobster size at mpa sites in 2012 are NOT equal to mean lobster size at mpa sites in 2017}
+
+\NormalTok{non_mpa_ttest <-}\StringTok{ }\NormalTok{non_mpa_site %>%}
+\StringTok{  }\KeywordTok{t.test}\NormalTok{(SIZE ~}\StringTok{ }\NormalTok{YEAR, }\DataTypeTok{data =} \NormalTok{., }\DataTypeTok{var.equal =} \OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{non_mpa_ttest }\CommentTok{# reject null they are equal}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Two Sample t-test
+## 
+## data:  SIZE by YEAR
+## t = 2.6973, df = 1147, p-value = 0.007093
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.7143078 4.5265173
+## sample estimates:
+## mean in group 2012 mean in group 2017 
+##           74.92462           72.30421
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{non_mpa_site_2012 <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(SITE %!in%}\StringTok{ }\NormalTok{mpa, YEAR ==}\StringTok{ }\DecValTok{2012}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(SITE,YEAR,SIZE)}
+
+\NormalTok{non_mpa_site_2017 <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(SITE %!in%}\StringTok{ }\NormalTok{mpa, YEAR ==}\StringTok{ }\DecValTok{2017}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(SITE,YEAR,SIZE)}
+
+\CommentTok{#calculate the difference in means}
+
+\NormalTok{non_mpa_mean_2012 <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(non_mpa_site_2012$SIZE)}
+
+\NormalTok{non_mpa_mean_2017 <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(non_mpa_site_2017$SIZE)}
+
+\NormalTok{non_mpa_mean_2012 -}\StringTok{ }\NormalTok{non_mpa_mean_2017}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.620413
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# calculate effect size}
+\NormalTok{cohen_d_test_non <-}\StringTok{ }\KeywordTok{cohen.d}\NormalTok{(non_mpa_site_2012$SIZE, non_mpa_site_2017$SIZE)}
+\NormalTok{cohen_d_test_non}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Cohen's d
+## 
+## d estimate: 0.2102816 (small)
+## 95 percent confidence interval:
+##        inf        sup 
+## 0.05707948 0.36348365
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## effect size is small which indicates that there likely is NOT a significant difference in mean lobster size at the two sites.}
+
+\NormalTok{## while there is a significance difference, the effect size is small, the absolute difference in means is small ....}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Proportions of ``legal'' lobsters at the 5 sites in 2017 The legal
+  minimum carapace size for lobster is 82.6 mm. What proportion of
+  observed lobsters at each site are above the legal minimum? Does that
+  proportion differ significantly across the 5 sites? Note: We'll be
+  doing chi-square in labs next week, or go ahead with maximum
+  resourcefulness and check out the chisq.test() function on your own!
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# filter for 2017}
+\CommentTok{# filter for above 82.6 mm}
+
+
+\NormalTok{legal_min <-}\StringTok{ }\NormalTok{lob_size3 %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(YEAR ==}\StringTok{ }\DecValTok{2017}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{above_legal =} \KeywordTok{case_when}\NormalTok{(}
+    \NormalTok{SIZE >=}\StringTok{ }\FloatTok{82.6} \NormalTok{~}\StringTok{ 'yes'}\NormalTok{,}
+    \NormalTok{SIZE <}\StringTok{ }\FloatTok{82.6} \NormalTok{~}\StringTok{ 'no'}
+  \NormalTok{)) %>%}
+\StringTok{  }\KeywordTok{count}\NormalTok{(SITE, above_legal) %>%}
+\StringTok{  }\KeywordTok{spread}\NormalTok{(above_legal, n) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(-SITE)}
+                   
+\KeywordTok{rownames}\NormalTok{(legal_min) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"AQUE"}\NormalTok{, }\StringTok{"CARP"}\NormalTok{, }\StringTok{"IVEE"}\NormalTok{, }\StringTok{"MOHK"}\NormalTok{, }\StringTok{"NAPL"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Setting row names on a tibble is deprecated.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{legal_prop <-}\StringTok{ }\KeywordTok{prop.table}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(legal_min), }\DecValTok{1}\NormalTok{)}
+
+
+\NormalTok{above_x2 <-}\StringTok{ }\KeywordTok{chisq.test}\NormalTok{(legal_prop)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in chisq.test(legal_prop): Chi-squared approximation may be
+## incorrect
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{above_x2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  legal_prop
+## X-squared = 0.11095, df = 4, p-value = 0.9985
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## The proportion does not differ significantly between each location. }
+\CommentTok{# there is no signficant association between legal lobster size and different test sites }
+\end{Highlighting}
+\end{Shaded}
+
+Based on the obervations from five Long-Term Ecological Research (LTER)
+Sites in the Santa Barbara Channel:Arroyo Quemado (n= 67) , Naples Reef
+(n= 112 ), Mohawk Reef (n= 178), Isla Vista (n= 606), Carpinteria(n= 705
+),the proportion of observed lobsters that are above the legal minimum
+carapace size does not differ significantly by site.(
+\emph{\(\chi\)\(^2\)}(4)= 0.11095, \emph{p}= 0.9985)
+
+
+\end{document}

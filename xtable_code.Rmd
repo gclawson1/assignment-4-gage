@@ -1,0 +1,41 @@
+---
+title: "Untitled"
+author: "Gage Clawson"
+date: "11/15/2018"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(xtable)
+library(vcdExtra)
+```
+
+```{r}
+lob_size <- read_csv("lobster_size_abundance.csv")
+lob_size1 <- as.data.frame(lob_size)
+
+lob_size2 <- expand.dft(lob_size1, freq = "COUNT")
+
+lob_size3 <- mutate(lob_size2, DATE = as.Date(DATE, format = '%d-%b-%y'))
+
+lob_size_2017 <- lob_size3 %>%
+  filter(YEAR == 2017) %>%
+  select(YEAR, SITE, SIZE)
+
+lobster_aov <- aov(SIZE ~ SITE, data = lob_size_2017)
+
+lobster_aov
+
+sum <- summary(lobster_aov)
+```
+
+```{r ANOVA_table1, echo = FALSE, results = 'asis', message = FALSE}
+table <- xtable(lobster_aov, caption = 'Lobster Size ANOVA results summary.')
+print(table, comment = FALSE, caption.placement = "top")
+```
+
