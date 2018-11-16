@@ -359,7 +359,7 @@ length(mpa_2017$IVEE[!is.na(mpa_2017$IVEE)])
 
 ```
 
-The mean lobster size at Isla Vista (Marine Protected Area) in 2012 (66.08 ±  mm [mean±sd], n= ) and 2017 (71.45 ±  mm [mean±sd], n= ) did not differ significantly based on a two-sample Student’s t-test (t(630) = -1.885, p = 0.0599, α = 0.05). Also, the effect size is small (Cohen’s d = -0.38) and the absolute difference in mean lobster size between the two years is 5.375 mm.
+The mean lobster size at Isla Vista (Marine Protected Area) in 2012 (66.08 ± 12.09 mm [mean±sd], n=26 ) and 2017 (71.45 ± 14.32  mm [mean±sd], n=606 ) did not differ significantly based on a two-sample Student’s t-test (t(630) = -1.89, p = 0.060, α = 0.05). Also, the effect size is small (Cohen’s d = -0.38) and the absolute difference in mean lobster size between the two years is 5.38 mm.
 
 ```{r}
 ############### MPA SITE NAPL ################
@@ -411,9 +411,7 @@ length(mpa_2017$NAPL[!is.na(mpa_2017$NAPL)])
 # NAPL 2012 n: 112
 
 ```
-The mean lobster size at Naples Reef(Marine Protected Area) in 2012 (73.00 ±  mm [mean±sd], n= ) and 2017 ( 76.23±  mm [mean±sd], n= ) did not differ significantly based on a two-sample Student’s t-test (t(116) = -0.676, p = 0.05002, α = 0.05).
-
-Even though p-value is low??? close to significant?- the effect size is small (Cohen’s d = -0.28) and the absolute difference in mean lobster size between two years is only 3.232 mm.
+The mean lobster size at Naples Reef (Marine Protected Area) in 2012 (73.00 ± 11.74  mm [mean±sd], n= 6 ) and 2017 ( 76.23± 11.39  mm [mean±sd], n= 112) did not differ significantly based on a two-sample Student’s t-test (t(116) = -0.68, p = 0.500, α = 0.05).Also,the effect size is small (Cohen’s d = -0.28) and the absolute difference in mean lobster size between two years is only 3.232 mm.
 
 ```{r}
 ############### NON MPA SITE AQUE ################
@@ -466,7 +464,7 @@ length(non_mpa_2017$AQUE[!is.na(non_mpa_2017$AQUE)])
 
 
 ```
-The mean lobster size at Arroyo Quemado(non-Marine Protected Area) in 2012 (71.00 ±  mm [mean±sd], n= ) and 2017 (73.90 ±  mm [mean±sd], n= ) did not differ significantly based on a two-sample Student’s t-test (t(103) = -1.2622, p = 0.2097, α = 0.05). Also,the effect size is small (Cohen’s d = -0.26) and the absolute difference in mean lobster size between the two years is only 2.896 mm.
+The mean lobster size at Arroyo Quemado(non-Marine Protected Area) in 2012 (71.00 ± 10.15 mm [mean±sd], n= 38) and 2017 (73.90 ± 11.89  mm [mean±sd], n=67 ) did not differ significantly based on a two-sample Student’s t-test (t(103) = -1.26, p = 0.210, α = 0.05). Also,the effect size is small (Cohen’s d = -0.26) and the absolute difference in mean lobster size between the two years is only 2.90 mm.
 
 ```{r}
 ############### NON MPA SITE CARP ################
@@ -518,7 +516,8 @@ length(non_mpa_2017$CARP[!is.na(non_mpa_2017$CARP)])
 # CARP 2012 n: 705
 
 ```
-The mean lobster size at Carpinteria (non-Marine Protected Area) in 2012 (74.36 ±  mm [mean±sd], n= ) and 2017 ( 72.23±  mm [mean±sd], n= ) did not differ significantly based on a two-sample Student’s t-test (t(781) = 1.3361, p = 0.1819, α = 0.05).Also,the effect size is small (Cohen’s d = 0.16) and the absolute difference in mean lobster size between the two years is only 2.13 mm.
+The mean lobster size at Carpinteria (non-Marine Protected Area) in 2012 (74.36 ± 14.62  mm [mean±sd], n= 78) and 2017 ( 72.23± 13.21  mm [mean±sd], n= 705 ) did not differ significantly based on a two-sample Student’s t-test (t(781) = 1.34, p = 0.182, α = 0.05).Also,the effect size is small (Cohen’s d = 0.16) and the absolute difference in mean lobster size between the two years is only 2.13 mm.
+
 ```{r}
 ############### NON MPA SITE MOHK ################
 
@@ -569,7 +568,7 @@ length(non_mpa_2017$MOHK[!is.na(non_mpa_2017$MOHK)])
 # MOHK 2012 n: 178
 
 ```
-The mean lobster size at Mohawk Reef (non-Marine Protected Area) in 2012 (77.25 ±  mm [mean±sd], n= ) and 2017 ( 72.00 ±  mm [mean±sd], n= ) differed significantly based on a two-sample Student’s t-test (t(259) = 4.0689, p <0.05, α = 0.05).Also,the effect size is moderate (Cohen’s d = 0.54) and the absolute difference in mean lobster size between the two years is 5.25 mm.
+The mean lobster size at Mohawk Reef (non-Marine Protected Area) in 2012 (77.25 ± 10.59  mm [mean±sd], n= 83) and 2017 ( 72.00 ± 9.28  mm [mean±sd], n= 178 ) differed significantly based on a two-sample Student’s t-test (t(259) = 4.07, p <0.05, α = 0.05).Also,the effect size is moderate (Cohen’s d = 0.54) and the absolute difference in mean lobster size between the two years is 5.25 mm.
 
 
 
