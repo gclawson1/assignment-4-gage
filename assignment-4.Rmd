@@ -345,6 +345,16 @@ IVEE_cohen_d <- cohen.d(mpa_2012$IVEE, mpa_2017$IVEE, na.rm = TRUE)
 IVEE_cohen_d
 
 
+sd(mpa_2012$IVEE, na.rm = TRUE)
+# IVEE 2012 sd: 12.09272
+length(mpa_2012$IVEE[!is.na(mpa_2012$IVEE)])
+# IVEE 2012 n: 26
+
+sd(mpa_2017$IVEE, na.rm = TRUE)
+# IVEE 2012 sd: 14.32008
+length(mpa_2017$IVEE[!is.na(mpa_2017$IVEE)])
+# IVEE 2012 n: 606
+
 ## effect size is small (d = -0.3775177) which indicates that there likely is NOT a significant difference in mean lobster size between the two years.
 
 ```
@@ -390,6 +400,16 @@ NAPL_cohen_d
 
 ## effect size is small (d = -0.2834216) which indicates that there likely is NOT a significant difference in mean lobster size between the two years.
 
+sd(mpa_2012$NAPL, na.rm = TRUE)
+# NAPL 2012 sd: 11.74734
+length(mpa_2012$NAPL[!is.na(mpa_2012$NAPL)])
+# NAPL 2012 n: 6
+
+sd(mpa_2017$NAPL, na.rm = TRUE)
+# NAPL 2012 sd: 11.3883
+length(mpa_2017$NAPL[!is.na(mpa_2017$NAPL)])
+# NAPL 2012 n: 112
+
 ```
 The mean lobster size at Naples Reef(Marine Protected Area) in 2012 (73.00 ±  mm [mean±sd], n= ) and 2017 ( 76.23±  mm [mean±sd], n= ) did not differ significantly based on a two-sample Student’s t-test (t(116) = -0.676, p = 0.05002, α = 0.05).
 
@@ -434,6 +454,16 @@ AQUE_cohen_d
 
 ## effect size is small (d = -0.2563169) which indicates that there likely is NOT a significant difference in mean lobster size between the two years.
 
+sd(non_mpa_2012$AQUE, na.rm = TRUE)
+# AQUE 2012 sd: 10.15022
+length(non_mpa_2012$AQUE[!is.na(non_mpa_2012$AQUE)])
+# AQUE 2012 n: 38
+
+sd(non_mpa_2017$AQUE, na.rm = TRUE)
+# AQUE 2012 sd: 11.89109
+length(non_mpa_2017$AQUE[!is.na(non_mpa_2017$AQUE)])
+# AQUE 2012 n: 67
+
 
 ```
 The mean lobster size at Arroyo Quemado(non-Marine Protected Area) in 2012 (71.00 ±  mm [mean±sd], n= ) and 2017 (73.90 ±  mm [mean±sd], n= ) did not differ significantly based on a two-sample Student’s t-test (t(103) = -1.2622, p = 0.2097, α = 0.05). Also,the effect size is small (Cohen’s d = -0.26) and the absolute difference in mean lobster size between the two years is only 2.896 mm.
@@ -477,6 +507,16 @@ CARP_cohen_d
 
 ## effect size is small (d = 0.1594364) which indicates that there likely is NOT a significant difference in mean lobster size between the two years.
 
+sd(non_mpa_2012$CARP, na.rm = TRUE)
+# CARP 2012 sd: 14.61628
+length(non_mpa_2012$CARP[!is.na(non_mpa_2012$CARP)])
+# CARP 2012 n: 78
+
+sd(non_mpa_2017$CARP, na.rm = TRUE)
+# CARP 2012 sd: 13.20913
+length(non_mpa_2017$CARP[!is.na(non_mpa_2017$CARP)])
+# CARP 2012 n: 705
+
 ```
 The mean lobster size at Carpinteria (non-Marine Protected Area) in 2012 (74.36 ±  mm [mean±sd], n= ) and 2017 ( 72.23±  mm [mean±sd], n= ) did not differ significantly based on a two-sample Student’s t-test (t(781) = 1.3361, p = 0.1819, α = 0.05).Also,the effect size is small (Cohen’s d = 0.16) and the absolute difference in mean lobster size between the two years is only 2.13 mm.
 ```{r}
@@ -517,6 +557,16 @@ MOHK_cohen_d
 
 
 ## effect size is MEDIUM (d = 0.5408116) which indicates that there likely is a significant difference in mean lobster size between the two years.
+
+sd(non_mpa_2012$MOHK, na.rm = TRUE)
+# MOHK 2012 sd: 10.58743
+length(non_mpa_2012$MOHK[!is.na(non_mpa_2012$MOHK)])
+# MOHK 2012 n: 83
+
+sd(non_mpa_2017$MOHK, na.rm = TRUE)
+# MOHK 2012 sd: 9.280318
+length(non_mpa_2017$MOHK[!is.na(non_mpa_2017$MOHK)])
+# MOHK 2012 n: 178
 
 ```
 The mean lobster size at Mohawk Reef (non-Marine Protected Area) in 2012 (77.25 ±  mm [mean±sd], n= ) and 2017 ( 72.00 ±  mm [mean±sd], n= ) differed significantly based on a two-sample Student’s t-test (t(259) = 4.0689, p <0.05, α = 0.05).Also,the effect size is moderate (Cohen’s d = 0.54) and the absolute difference in mean lobster size between the two years is 5.25 mm.
