@@ -1,0 +1,119 @@
+---
+title: "assignment-4"
+author: "Gage Clawson"
+date: "11/13/2018"
+output:
+  pdf_document: default
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+library(vcdExtra)
+library(car)
+library(effsize)
+library(ggsignif)
+library(ggpubr)
+library(knitr)
+library(FSA)
+library(kableExtra)
+library(xtable)
+library(kableExtra)
+```
+
+```{r}
+# read in the lobster traps dataset
+lob_traps <- as.data.frame(read_csv("lobster_traps.csv"))
+
+
+```
+
+```{r}
+# Read in the lobster size data set and make it tidy
+
+lob_size <- read_csv("lobster_size_abundance.csv")
+lob_size1 <- as.data.frame(lob_size)
+
+lob_size2 <- expand.dft(lob_size1, freq = "COUNT") ##expand.dft filters out all count = 0 rows and makes data tidy (each observation has it's own row)
+```
+Yes boss
+
+```{r}
+lob_size3 <- mutate(lob_size2, DATE = as.Date(DATE, format = '%d-%b-%y')) # make date formats same for both datasets yyyy-mm-dd
+
+three_sites <- c("AQUE", "CARP", "MOHK")
+
+lob_traps1 <- mutate(lob_traps, DATE = as.Date(DATE, format = '%m/%d/%y')) %>%
+  filter(SITE %in% three_sites, TRAPS != 0) %>%
+    expand.dft(freq = "TRAPS") 
+  
+
+
+# make date formats the same and filter for only the 5 sites 
+
+```
+
+
+
+
+4. Proportions of “legal” lobsters at the 5 sites in 2017
+The legal minimum carapace size for lobster is 82.6 mm. What proportion of observed lobsters at each site are above the legal minimum? Does that proportion differ significantly across the 5 sites? Note: We’ll be doing chi-square in labs next week, or go ahead with maximum resourcefulness and check out the chisq.test() function on your own!
+
+```{r}
+# filter for 2017
+# filter for above 82.6 mm
+
+legal_min1 <- lob_size3 %>%
+  filter(YEAR == 2017) %>%
+  mutate(above_legal = case_when(
+    SIZE >= 82.6 ~ 'yes',
+    SIZE < 82.6 ~ 'no'
+  )) %>%
+  count(SITE, above_legal) 
+
+total <- c(sum(legal_min1$n[legal_min1$SITE == "AQUE"]), sum(legal_min1$n[legal_min1$SITE == "AQUE"]), sum(legal_min1$n[legal_min1$SITE == "CARP"]),sum(legal_min1$n[legal_min1$SITE == "CARP"]), sum(legal_min1$n[legal_min1$SITE == "IVEE"]),sum(legal_min1$n[legal_min1$SITE == "IVEE"]), sum(legal_min1$n[legal_min1$SITE == "MOHK"]),sum(legal_min1$n[legal_min1$SITE == "MOHK"]), sum(legal_min1$n[legal_min1$SITE == "NAPL"]),sum(legal_min1$n[legal_min1$SITE == "NAPL"]))
+
+totaln <- c(51, 16, 526, 179, 476, 130,154, 24, 75, 37)
+
+
+proportions <- totaln/total
+
+legal_min1["proportions"] <- proportions
+
+legal_min2 <- legal_min1 %>%
+  filter(above_legal == "yes")
+
+total_only_5_columns <- c(sum(legal_min1$n[legal_min1$SITE == "AQUE"]), sum(legal_min1$n[legal_min1$SITE == "CARP"]), sum(legal_min1$n[legal_min1$SITE == "IVEE"]), sum(legal_min1$n[legal_min1$SITE == "MOHK"]), sum(legal_min1$n[legal_min1$SITE == "NAPL"]))
+
+legal_min2["Total_Lobsters"] <- total_only_5_columns
+
+
+legal_min_final_table <- legal_min2 %>% mutate(props = round(proportions,2)) %>%
+  select(SITE, n, Total_Lobsters, props)
+
+kable(legal_min_final_table, col.names = c(" ", "Above Legal Limit Lobsters", "Total Lobsters", "Proportion Above Legal Limit Lobsters")) %>%
+  kable_styling(latex_options = c( "hold_position"), position = "center") %>%
+  row_spec(0, bold = T) %>%
+  column_spec(1, bold = T)
+
+
+
+
+
+```
+
+
+Based on the obervations from five Long-Term Ecological Research (LTER) Sites in the Santa Barbara Channel:Arroyo Quemado (n= 67) , Naples Reef (n= 112 ), Mohawk Reef (n= 178), Isla Vista (n= 606), Carpinteria(n= 705 ),the proportion of observed lobsters that are above the legal minimum carapace size does not differ significantly by site.( *$\chi$$^2$*(4)= 0.11095, *p*= 0.9985)
+
+
+
+
+
+
+
+
