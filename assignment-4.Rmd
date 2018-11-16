@@ -112,7 +112,7 @@ lob_vs_trap_counts
 
 ## add caption to graph to explain what is contained within it. 
 ```
-
+**Figure 1. Lobster abundance and fishing pressurein five Long-Term Ecological Research Sites (2012-2017).** The graphs show the trends in lobster counts and trap buoys at five locations Arroyo Quemado (AQUE), Carpinteria (CARP),Isla Vista (IVEE),Mohawk Reef (MOHK), Naples Reef(NAPL) in the Santa Barbara Channel between 2012 and 2017. Blue and yellow lines indicate lobster and trap buoy counts, respectively.
 
 2. Compare mean lobster size by site in 2017
 Compare mean lobster sizes (carapace length (mm)) across the five sites for lobster observations collected in
