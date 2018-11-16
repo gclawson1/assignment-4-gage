@@ -96,7 +96,8 @@ legal_min2["Total_Lobsters"] <- total_only_5_columns
 legal_min_final_table <- legal_min2 %>% mutate(props = round(proportions,2)) %>%
   select(SITE, n, Total_Lobsters, props)
 
-#legal_min_final_table[1, 1] <- "Arroyo Quemado" 
+
+#legal_min_final_table$SITE[legal_min_final_table$SITE=="AQUE"] <- "Arroyo Quemado"
 
 kable(legal_min_final_table, "latex", col.names = c(" ", ' "Legal" Lobsters', "Total Lobsters", 'Proportion "Legal" Lobsters'), booktabs = T, align = "c") %>%
   kable_styling(latex_options = c( "striped"), full_width = FALSE) %>%
