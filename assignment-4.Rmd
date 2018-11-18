@@ -3,9 +3,9 @@ title: "assignment-4"
 author: "Gage Clawson"
 date: "11/13/2018"
 output:
-  word_document: default
-  pdf_document: default
   html_document: default
+  pdf_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -24,6 +24,7 @@ library(FSA)
 library(kableExtra)
 library(xtable)
 library(kableExtra)
+library(RColorBrewer)
 ```
 
 ```{r}
@@ -106,7 +107,8 @@ lob_vs_trap_counts <- ggplot(new_lob_traps, aes(x = YEAR)) +
   facet_wrap(~SITE, scales = "free") +
   theme_classic() +
   scale_color_manual(values = c("#00AFBB", "#E7B800"), name = "Count", labels = c("Lobsters", "Traps")) +
-  labs(x = "Year", y = "Count Totals")
+  labs(x = "Year", y = "Count Totals") + 
+  theme(text = element_text(family = "Century Schoolbook"), legend.title=element_blank())
 
 lob_vs_trap_counts
 
@@ -125,9 +127,15 @@ expand.dft in the vcdExtra package (it doesn’t like tibbles, so you might need
 
 ```{r}
 
+mpa <- c("IVEE", "NAPL") 
+
+'%!in%' <- function(x,y)!('%in%'(x,y))
+
 lob_mean <- lob_size3 %>%
   filter(YEAR == 2017) %>%
-  group_by(SITE) %>%
+  mutate(Area = case_when( SITE %in% mpa ~ 'Marine Protected', 
+                           SITE %!in% mpa ~ 'Non Marine Protected')) %>%
+  group_by(SITE, Area) %>%
   dplyr::summarise(mean_size = mean(SIZE), sample_size = length(SIZE), sd_size = sd(SIZE))
 
 lob_size_2017 <- lob_size3 %>%
@@ -201,15 +209,6 @@ tukey_data <- as.data.frame(lobster_ph$SITE)
 ```
 The mean lobster size (mm) differed significantly in five Long-Term Ecological Research (LTER) Sites in the Santa Barbara Channel:Arroyo Quemado (n= `r filter(lob_mean,SITE== 'AQUE')$sample_size` , Naples Reef (n= 112 ), Mohawk Reef (n= 178), Isla Vista (n= 606), Carpinteria(n= 705 ) studied (one-way ANOVA, F(4,1663) = `r `, *p* < 0.001, *alpha*= 0.5; Table ...). Post-hoc analysis by Tukey’s HSD revealed that the mean lobster size in Naples Reef differed significantly from Carpinteria and Isla Vista (pairwise *p* < 0.001).
 
-Ilayda: needs referencing for F value.
-
-
-Lobster size ANOVA results summary.
-
-Ilayda: I tried to make a table as in the example but it doesn't work. Maybe you can fix this Gage.
-
-Gage: Figured it out. If we knit to pdf in the file "xtable_code.Rmd", we can get the table. I also took a screenshot of the table and put it in our project file. All we need to do is add the screenshot of the table for our final word document. 
-
 ```{r ANOVA_table, echo = FALSE, results = 'asis', message = FALSE}
 
 #table <- xtable(lobster_aov, caption = 'Lobster Size ANOVA results summary.')
@@ -221,19 +220,20 @@ Gage: Figured it out. If we knit to pdf in the file "xtable_code.Rmd", we can ge
 
 ```{r}
 ggplot(lob_mean, aes(x = SITE, y = mean_size)) +
-  geom_col(colour = NA, fill = "gray50", width = 0.6) +
+  geom_col(colour = "gray0",aes(fill = Area, width = 0.6)) +
   geom_errorbar(aes(ymin =mean_size - sd_size, ymax = mean_size + sd_size), color = "gray0", width = .3) +
   scale_y_continuous(expand = c(0,0), limits = c(0,100)) +
   scale_x_discrete(labels = c("Arroyo Quemado","Carpinteria","Isla Vista","Mohawk Reef","Naples Reef")) +
-  annotate("text", x = 1, y = 90, label = "a,b", family = "Times New Roman") +
-  annotate("text", x = 2, y = 89, label = "a", family = "Times New Roman") +
-  annotate("text", x = 3, y = 89, label = "a", family = "Times New Roman") +
-  annotate("text", x = 4, y = 85, label = "a,b", family = "Times New Roman") +
-  annotate("text", x = 5, y = 91, label = "b", family = "Times New Roman") +
+  annotate("text", x = 1, y = 90, label = "a,b", family = "Century Schoolbook") +
+  annotate("text", x = 2, y = 89, label = "a", family = "Century Schoolbook") +
+  annotate("text", x = 3, y = 89, label = "a", family = "Century Schoolbook") +
+  annotate("text", x = 4, y = 85, label = "a,b", family = "Century Schoolbook") +
+  annotate("text", x = 5, y = 91, label = "b", family = "Century Schoolbook") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank(), axis.line = element_line(colour = "black"),text = element_text(family = "Times New Roman"))+
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),text = element_text(family = "Century Schoolbook"), legend.title=element_blank())+
   xlab("\n Long-Term Ecological Research Site")+
-  ylab("Mean lobster size (carapace length (mm))") #we can change this title
+  ylab("Mean lobster size (carapace length (mm))") +
+  scale_fill_manual(values = c("darkslategray3", "darksalmon"), name = "Area", labels = c(" Marine Protected Area", " Non Marine Protected Area"))#we can change this title
 ```
 
 **Figure 2. Lobster size in five Long-Term Ecological Research Sites.** Mean lobster sizes (mm) for sites Arroyo Quemado, Carpinteria,Isla Vista,Mohawk Reef,Naples Reef in the Santa Barbara Channel. Error bars indicate +/- 1 standard deviation. Like letters indicate values that do not differ significantly (by one-way ANOVA with Tukey's HSD; F(4,1663) = 3.424, *p* < 0.001), with $\alpha$ = 0.05 for all post-hoc pairwise comparisons).

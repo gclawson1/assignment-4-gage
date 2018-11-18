@@ -35,7 +35,7 @@ sum <- summary(lobster_aov)
 ```
 
 ```{r ANOVA_table1, echo = FALSE, results = 'asis', message = FALSE}
-table <- xtable(lobster_aov, caption = 'Lobster Size ANOVA results summary.')
+table <- xtable(lobster_aov)
 print(table, comment = FALSE, caption.placement = "top")
 ```
 

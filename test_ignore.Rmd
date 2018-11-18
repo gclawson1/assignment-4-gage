@@ -6,6 +6,7 @@ output:
   pdf_document: default
   word_document: default
   html_document: default
+  sansfont : Century Schoolbook
 ---
 
 ```{r setup, include=FALSE}
@@ -100,7 +101,7 @@ legal_min_final_table <- legal_min2 %>% mutate(props = round(proportions,2)) %>%
 #legal_min_final_table$SITE[legal_min_final_table$SITE=="AQUE"] <- "Arroyo Quemado"
 
 kable(legal_min_final_table, "latex", col.names = c(" ", ' "Legal" Lobsters', "Total Lobsters", 'Proportion "Legal" Lobsters'), booktabs = T, align = "c") %>%
-  kable_styling(latex_options = c( "striped"), full_width = FALSE) %>%
+  kable_styling( full_width = FALSE) %>%
   row_spec(0, bold = T) %>%
   column_spec(1, bold = T) %>%
   add_header_above(c(" ", '"Legal" California Spiny Lobsters' = 3), bold = T)
