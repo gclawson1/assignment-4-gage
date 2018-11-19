@@ -232,7 +232,7 @@ ggplot(lob_mean, aes(x = SITE, y = mean_size)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"),text = element_text(family = "Century Schoolbook"), legend.title=element_blank())+
   xlab("\n Long-Term Ecological Research Site")+
-  ylab("Mean lobster size (carapace length (mm))") +
+  ylab("Mean Lobster Size (carapace length (mm))") +
   scale_fill_manual(values = c("darkslategray3", "darksalmon"), name = "Area", labels = c(" Marine Protected Area", " Non Marine Protected Area"))#we can change this title
 ```
 

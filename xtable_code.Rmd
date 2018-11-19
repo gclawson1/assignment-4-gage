@@ -25,9 +25,10 @@ lob_size3 <- mutate(lob_size2, DATE = as.Date(DATE, format = '%d-%b-%y'))
 
 lob_size_2017 <- lob_size3 %>%
   filter(YEAR == 2017) %>%
-  select(YEAR, SITE, SIZE)
+  select(YEAR, SITE, SIZE) %>%
+  rename(Site = SITE)
 
-lobster_aov <- aov(SIZE ~ SITE, data = lob_size_2017)
+lobster_aov <- aov(SIZE ~ Site, data = lob_size_2017)
 
 lobster_aov
 
